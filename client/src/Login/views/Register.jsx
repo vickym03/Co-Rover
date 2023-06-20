@@ -16,7 +16,6 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import MainPage from "./MainPage";
 import Alert from "@mui/material/Alert";
 import IconButton from "@mui/material/IconButton";
 import Collapse from "@mui/material/Collapse";

@@ -1,13 +1,20 @@
-import { Button, Typography } from '@mui/material'
-import React from 'react'
+import {  IconButton } from "@mui/material";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import SendIcon from '@mui/icons-material/Send';
-import Stack from '@mui/material/Stack';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import Stack from "@mui/material/Stack";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { useNavigate } from "react-router-dom";
+import MainDashboard from "../../Dashboard/views/MainDashboard";
 
-
-function MainPage({setLogin,setDashboard,setOpen,setOpenErr,setOpenNotFou}) {
+function MainPage({
+  setLogin,
+  setDashboard,
+  setOpen,
+  setOpenErr,
+  setOpenNotFou,
+}) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const getData = useSelector((state) => {
     return {
@@ -17,32 +24,25 @@ function MainPage({setLogin,setDashboard,setOpen,setOpenErr,setOpenNotFou}) {
 
   const { loginData } = getData;
 
-const back =()=>{
-  setLogin(true)
-  setDashboard(false)
-  setOpen(false)
-  setOpenErr(false)
-  setOpenNotFou(false)
-}
-  const username = loginData.data.name
+  const back = () => {
+    // setLogin(true);
+    // setDashboard(false);
+    // setOpen(false);
+    // setOpenErr(false);
+    // setOpenNotFou(false);
+    navigate("/");
+  };
   return (
     <div>
-    <Typography variant='h4' sx={{m:5}}>
+      <Stack direction="row" spacing={2}>
+        <IconButton color="secondary" onClick={back}>
+          <ArrowBackIcon />
+        </IconButton>
+      </Stack>
 
-      Welcome : {username}
-    </Typography>
-
-    <Stack direction="row" spacing={2}>
-      
-      <Button variant="contained" startIcon={<ArrowBackIcon />} onClick={back}>
-        Back
-      </Button>
-    </Stack>
-
-
-
+      <MainDashboard />
     </div>
-  )
+  );
 }
 
-export default MainPage
+export default MainPage;

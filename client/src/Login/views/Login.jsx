@@ -10,7 +10,6 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,11 +19,13 @@ import Alert from "@mui/material/Alert";
 import IconButton from "@mui/material/IconButton";
 import Collapse from "@mui/material/Collapse";
 import CloseIcon from "@mui/icons-material/Close";
+import { useNavigate } from "react-router-dom";
 
 const theme = createTheme();
 
 export default function Login() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const getData = useSelector((state) => {
     return {
@@ -46,14 +47,12 @@ export default function Login() {
     name: yup
       .string()
       .matches(/^\S*$/, "Enter without space")
-      // .name("Error  name")
       .min(4, "name must be greater than 4 character")
       .max(100, "name must be lesser than 100 character")
-      .required("Enter E-mail"),
+      .required("Enter username"),
     password: yup
       .string()
       .matches(/^\S*$/, "Enter without space")
-     
       .min(4, "Password must be greater than 4 character")
       .max(100, "Password must be lesser than 100 character")
       .required("Enter password"),
@@ -65,40 +64,16 @@ export default function Login() {
       password: "",
     },
     validationSchema: validate,
-    onSubmit: (values, { setFieldValue }) => {
+    onSubmit: (values, { resetForm }) => {
       const name = values.name;
       const password = values.password;
       dispatch(getLoginRequest(name, password));
+      resetForm({ values: "" });
+      navigate('/dashboard')
     },
   });
 
-  React.useEffect(() => {
-    if (loginData !== undefined && loginData.status === 200) {
-      setOpen(true);
-      setTimeout(() => {
-        setLogin(false);
-        setDashboard(true);
-        formik.setFieldValue("name", "");
-        formik.setFieldValue("password", "");
-      }, 1000);
-    }
-    //user not found
-    else if (loginData !== undefined && loginData.status === 404) {
-      setOpenNotFou(true);
-      setTimeout(() => {
-        setLogin(true);
-        setDashboard(false);
-      }, 1000);
-    }
-    //login err password or userid
-    else {
-      loginData !== undefined && setOpenErr(true);
-      setTimeout(() => {
-        setLogin(true);
-        setDashboard(false);
-      }, 1000);
-    }
-  }, [loginData]);
+  
 
   return (
     <>
@@ -220,10 +195,12 @@ export default function Login() {
                   type="submit"
                   fullWidth
                   variant="contained"
+                  // onClick={}
                   sx={{ mt: 3, mb: 2 }}
                 >
-                  Sign In
+                  Sign Inq
                 </Button>
+
                 <Grid container>
                   <Grid item xs></Grid>
                   <Grid item>

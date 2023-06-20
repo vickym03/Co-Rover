@@ -1,7 +1,8 @@
 const express = require("express");
 const LoginModel = require("../model/LoginModel")
 const userRouter = express.Router();
-
+const mongoose = require("mongoose");
+const autoIncrement = require('mongoose-auto-increment');
 
 
 /*
@@ -28,15 +29,24 @@ const userRouter = express.Router();
 
 userRouter.post('/register', function (request, response) {
 
+    var entitySchema = mongoose.Schema({
+        testvalue: { type: Number }
+    });
+
+    console.log("entitySchema", entitySchema.$id)
+
     const LoginDoc = new LoginModel({
         name: request.body.name,
         password: request.body.password,
         created: Date(),
-        modified: Date()
+        modified: Date(),
+        id: entitySchema.$id,
+        clientId: entitySchema.$id
     })
 
-    if (request.body.mode === 0) {
-        console.log("new")
+    console.log("LoginDoc", LoginDoc)
+    if (request.body) {
+        console.log("request.body.mode", request.body)
 
         LoginModel.findOne({ name: request.body.name })
             .then((users) => {
@@ -52,6 +62,7 @@ userRouter.post('/register', function (request, response) {
                 else {
                     LoginDoc.save()
                         .then((result) => {
+                            console.log("res", result)
                             response.status(201).send({
                                 data: {
                                     message: "User created successfully",
@@ -61,6 +72,8 @@ userRouter.post('/register', function (request, response) {
                             })
 
                         })
+
+
                         .catch((error) => {
                             response.status(404).send({
                                 data: {
@@ -74,7 +87,6 @@ userRouter.post('/register', function (request, response) {
     }
     else {
 
-        console.log("update")
         LoginModel.findOne({ name: request.body.name })
             .then((users) => {
                 if (users) {
@@ -96,12 +108,11 @@ userRouter.post('/register', function (request, response) {
 
                     const filterValue = { _id: request.body.id }
 
-                    console.log("id", filterValue)
-                    console.log("updatevale", updatedValue)
+                    // console.log("updatevale", updatedValue)
 
                     LoginModel.findOneAndUpdate(filterValue, updatedValue, { upsert: true, new: true, setDefaultsOnInsert: true })
                         .then((result) => {
-                            console.log("up", result)
+                            // console.log("up", result)
                             response.status(201).send({
                                 data: {
                                     message: "User updated successfully",
@@ -140,7 +151,7 @@ userRouter.post('/register', function (request, response) {
 */
 
 userRouter.post('/login', function (request, response) {
-    console.log("request.body", request.body)
+    // console.log("request.body", request.body)
     LoginModel.findOne({ name: request.body.name })
         .then((users) => {
             if (users === null) {
@@ -156,7 +167,7 @@ userRouter.post('/login', function (request, response) {
                 })
             }
             else if (request.body.password === users.password) {
-                console.log(users)
+                // console.log(users)
                 response.send({
                     data: {
                         status: 200,
@@ -222,7 +233,7 @@ userRouter.get('/userlist', function (request, response) {
 userRouter.post('/delUser', function (request, response) {
 
     LoginModel.find({ _id: request.body.id }).then((data) => {
-        console.log("data", data && data.length > 0 && data !== undefined)
+        // console.log("data", data && data.length > 0 && data !== undefined)
 
         if (data && data.length > 0 && data !== undefined) {
             LoginModel.findOneAndDelete({ _id: request.body.id }).then((result) => {

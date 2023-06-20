@@ -24,10 +24,9 @@ function Router() {
 
                     <Route exact path="/" element={<Login />} />
                     <Route path="/register" element={<Register />} />
-                    <Route
-                        path="*"
-                        element={<Navigate to="/" replace />}
-                    />
+                    <Route path="/dashboard" element={<MainPage/>} />
+
+                   
                 </Routes>
 
             </BrowserRouter>
