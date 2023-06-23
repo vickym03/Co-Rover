@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, IconButton, Typography } from "@mui/material";
 import { useStyles } from "./style";
@@ -6,6 +6,8 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import { styled } from "@mui/material/styles";
+import PersonAddSharpIcon from "@mui/icons-material/PersonAddSharp";
+
 import {
   sentIcon,
   deliveredIcon,
@@ -16,7 +18,8 @@ import {
 } from "./Icons";
 import Graph from "./Graph";
 import TableData from "./TableData";
-
+import TableUserData from "../../TableDetails/views/TableUserData";
+import { useNavigate } from "react-router-dom";
 function MainDashboard() {
   const Item = styled(Paper)(({ theme }) => ({
     // backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#F4F6F7",
@@ -26,7 +29,9 @@ function MainDashboard() {
     color: "#4D5656",
   }));
   const classes = useStyles();
+  const navigate = useNavigate();
 
+  const [tableView, setTableView] = useState(false);
   const getData = useSelector((state) => {
     return {
       loginData: state.usersReducer.login,
@@ -34,13 +39,15 @@ function MainDashboard() {
   });
 
   const { loginData } = getData;
-  const username = loginData !== undefined && loginData.data.name;
-
+  // const username = loginData !== undefined && loginData.data.name;
+  const handleFormView = () => {
+    navigate("/userDetails");
+  };
   return (
     <div>
       <Box sx={{ flexGrow: 1, padding: "30px" }}>
         <Typography variant="h5" sx={{ padding: "0px 0px 10px 0px" }}>
-          Hello, {username}
+          Hello,
         </Typography>
         <Grid item xs={12}>
           <Grid container spacing={4}>
@@ -156,6 +163,15 @@ function MainDashboard() {
           </Grid>
         </Grid>
       </Box>
+      <Grid sx={{ padding: "0px 30px 20px 0px" }}>
+        <Button
+          onClick={handleFormView}
+          className={classes.buttonAdd}
+          startIcon={<PersonAddSharpIcon />}
+        >
+          Add User
+        </Button>
+      </Grid>
       <TableData />
       <Graph />
     </div>

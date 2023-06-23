@@ -1,7 +1,7 @@
 const express = require("express")
 const cors = require("cors")
 const dbConnection = require("./database/Config")
-const { userRouter } = require("./routes/index")
+const { loginRouter, userRouter } = require("./routes/index")
 const app = express();
 
 
@@ -19,6 +19,7 @@ dbConnection()
 
 
 /* ---- routes ---- */
+app.use("/login", loginRouter)
 app.use("/user", userRouter)
 
 

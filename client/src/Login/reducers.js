@@ -1,4 +1,4 @@
-import { REGISTER_USERS_REQUEST, REGISTER_USERS_SUCCESS, REGISTER_USERS_FAILED, LOGIN_USERS_REQUEST, LOGIN_USERS_SUCCESS, LOGIN_USERS_FAILED } from "./actions";
+import { REGISTER_USERS_REQUEST, REGISTER_USERS_SUCCESS, REGISTER_USERS_FAILED, LOGIN_USERS_REQUEST, LOGIN_USERS_SUCCESS, LOGIN_USERS_FAILED, RESET_LOGIN } from "./actions";
 
 const initialState = {
     register: undefined,
@@ -54,7 +54,11 @@ export default function usersReducer(state = initialState, action) {
                 error: action.message,
                 loading: false,
             };
+        case RESET_LOGIN: return {
+            ...state,
+            login: undefined,
 
+        }
 
         default:
             return state;

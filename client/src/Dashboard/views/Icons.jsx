@@ -17,4 +17,4 @@ export const clickedIcon = <ScheduleSendIcon sx={{color:"#1de9b6"}}/>
 
 export const replayedIcon = <ReplyIcon color="warning"/>
 
-export const failedIcon = <SmsFailedOutlinedIcon color="error"/>
+export const failedIcon = <SmsFailedOutlinedIcon sx={{color:"white"}}/>

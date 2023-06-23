@@ -1,33 +1,54 @@
 const express = require("express");
-const LoginModel = require("../model/LoginModel")
+const UserModel = require("../model/UserModel")
 const userRouter = express.Router();
 const mongoose = require("mongoose");
 const autoIncrement = require('mongoose-auto-increment');
+const moment = require("moment");
+
+
 
 
 /*
 
-* url:http://localhost:5000/user/register
+* url:http://localhost:5000/user/addUser
 * method: POST
 
 * need: register new user if mode is 0
 * body: {
-*   "name": "vickyM",
-*   "password": "12345",
-*   "mode":0
-* }
+*      "username": "vicky M",
+*      "level": 5,
+*      "clientId":7,
+*      "insertMode": 0,
+*      "product": "car",
+*      "group": 2,
+*      "bankname": "indian Bank",
+*      "bankcode": "Ind123573",
+*      "mobileno": 1234678907,
+*      "usertype": 8,
+*      "active": true 
+*    }
 
 * need: updates the exixiting  user if mode is 1
 * body: {
-*   "id":"64411c60aa38fdd2773bf1ce"
-*   "name": "vickyM",
-*   "password": "12345",
-*   "mode":1
-* }
+*      "username": "vicky M",
+*      "level": 5,
+*      "clientId":7,
+*      "insertMode": 1,
+*      "product": "car",
+*      "group": 2,
+*      "bankname": "indian Bank",
+*      "bankcode": "Ind123573",
+*      "mobileno": 1234678907,
+*      "usertype": 8,
+*      "active": true,
+*       "id":4 
+*    }
 
 */
 
-userRouter.post('/register', function (request, response) {
+userRouter.post('/addUser', function (request, response) {
+
+    console.log("body addUser", request.body)
 
     var entitySchema = mongoose.Schema({
         testvalue: { type: Number }
@@ -35,32 +56,39 @@ userRouter.post('/register', function (request, response) {
 
     console.log("entitySchema", entitySchema.$id)
 
-    const LoginDoc = new LoginModel({
-        name: request.body.name,
-        password: request.body.password,
-        created: Date(),
-        modified: Date(),
+    const UserDoc = new UserModel({
         id: entitySchema.$id,
-        clientId: entitySchema.$id
+        insertMode: request.body.insertMode,
+        username: request.body.username,
+        clientId: request.body.clientId,
+        level: request.body.level,
+        product: request.body.product,
+        group: request.body.group,
+        bankname: request.body.bankname,
+        bankcode: request.body.bankcode,
+        mobileno: request.body.mobileno,
+        usertype: request.body.usertype,
+        active: request.body.active,
+        created: moment().format('MMMM Do YYYY, h:mm:ss a')
     })
 
-    console.log("LoginDoc", LoginDoc)
-    if (request.body) {
-        console.log("request.body.mode", request.body)
-
-        LoginModel.findOne({ name: request.body.name })
+    if (request.body.insertMode === 0) {
+        console.log("insert")
+        UserModel.findOne({ mobileno: request.body.mobileno })
             .then((users) => {
                 if (users) {
                     response.status(200).send({
                         data: {
                             message: "User exists",
-                            data: request.body.name,
+                            data: request.body.mobileno,
                             status: 401
                         }
                     })
                 }
                 else {
-                    LoginDoc.save()
+                    console.log("insert 1")
+
+                    UserDoc.save()
                         .then((result) => {
                             console.log("res", result)
                             response.status(201).send({
@@ -75,6 +103,7 @@ userRouter.post('/register', function (request, response) {
 
 
                         .catch((error) => {
+                            console.log("err", error)
                             response.status(404).send({
                                 data: {
                                     message: "User created failed",
@@ -87,30 +116,40 @@ userRouter.post('/register', function (request, response) {
     }
     else {
 
-        LoginModel.findOne({ name: request.body.name })
+        UserModel.findOne({ mobileno: request.body.mobileno })
             .then((users) => {
+                console.log("users", users)
                 if (users) {
                     response.status(200).send({
                         data: {
-                            message: "User exists",
-                            data: request.body.name,
+                            message: "User Mobile No exists",
+                            data: request.body.mobileno,
                             status: 401
                         }
                     })
                 } else {
+                    console.log("insert update")
 
                     const updatedValue = {
-                        name: request.body.name,
-                        password: request.body.password,
-                        created: Date(),
-                        modified: Date()
+                        // id: entitySchema.$id,
+                        insertMode: request.body.insertMode,
+                        // username: request.body.username,
+                        level: request.body.level,
+                        product: request.body.product,
+                        group: request.body.group,
+                        // bankname: request.body.bankname,
+                        // bankcode: request.body.bankcode,
+                        mobileno: request.body.mobileno,
+                        usertype: request.body.usertype,
+                        active: request.body.active,
+                        modified: moment().format('MMMM Do YYYY, h:mm:ss a')
                     }
 
-                    const filterValue = { _id: request.body.id }
+                    const filterValue = { id: request.body.id }
 
                     // console.log("updatevale", updatedValue)
 
-                    LoginModel.findOneAndUpdate(filterValue, updatedValue, { upsert: true, new: true, setDefaultsOnInsert: true })
+                    UserModel.findOneAndUpdate(filterValue, updatedValue, { upsert: true, new: true, setDefaultsOnInsert: true })
                         .then((result) => {
                             // console.log("up", result)
                             response.status(201).send({
@@ -139,121 +178,36 @@ userRouter.post('/register', function (request, response) {
 
 
 
-/*
 
-* url:http://localhost:5000/user/login
+
+/*
+* url:http://localhost:5000/user/viewUser
 * method: POST
-* body: {
-*  "name": "vickyM",
-*  "password": "12345"
-* }
- 
+* body : {
+*           "clientId":7
+*       }
 */
 
-userRouter.post('/login', function (request, response) {
-    // console.log("request.body", request.body)
-    LoginModel.findOne({ name: request.body.name })
-        .then((users) => {
-            if (users === null) {
-                response.send({
+userRouter.post('/viewUser', function (request, response) {
 
-                    data: {
-                        message: " Data not found please register",
-                        status: 404,
-                        login: false
-
-                    }
-
-                })
-            }
-            else if (request.body.password === users.password) {
-                // console.log(users)
-                response.send({
-                    data: {
-                        status: 200,
-                        message: "login success",
-                        data: users,
-                        login: true
-                    }
-
-                })
-            }
-            else {
-                response.send({
-                    data: {
-
-                        message: "login failed",
-                        status: 400,
-                        login: false
-                    }
-                })
-            }
-
-        })
-
-})
-
-
-/*
-
-* url:http://localhost:5000/user/userlist
-* method: GET 
-* body :{
-*    "id":"64411c60aa38fdd2773bf1ce"
-*  }
-
-*/
-
-userRouter.get('/userlist', function (request, response) {
-
-    LoginModel.find({})
-        .then((result) => {
-            response.status(200).send({
-                message: "User data fetched successfully",
-                data: result
-            })
-
-        })
-        .catch((error) => {
-            response.status(404).send({
-                message: "User  data fetch failed ",
-                data: error
-            })
-        })
-
-
-})
-
-
-/*
-* url:http://localhost:5000/user/delUser
-* method: POST
-*/
-
-userRouter.post('/delUser', function (request, response) {
-
-    LoginModel.find({ _id: request.body.id }).then((data) => {
-        // console.log("data", data && data.length > 0 && data !== undefined)
+    UserModel.find({ clientId: request.body.clientId }).then((data) => {
+        console.log("data", data)
 
         if (data && data.length > 0 && data !== undefined) {
-            LoginModel.findOneAndDelete({ _id: request.body.id }).then((result) => {
 
-                console.log("result--------", result)
-                response.status(200).send({
-                    message: "User data deleted successfully",
-                    data: result
-                })
+            response.status(200).send({
+                message: "User data fetched successfully",
+                data: data
             })
         } else {
             response.status(404).send({
                 message: "User  data not found",
-                data: 404
+                data: []
             })
         }
     }).catch((error) => {
-        console.log("delUser", error)
         response.status(404).send({
-            message: "User  data delete failed ",
+            message: "User  data  failed to fetch ",
             data: 0
 
         })

@@ -1,6 +1,6 @@
 import { makeStyles } from '@mui/styles';
 
-export const useStyles = makeStyles({
+export const useStyles = makeStyles(theme=>({
     root: {
         background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
         border: 0,
@@ -68,8 +68,34 @@ export const useStyles = makeStyles({
     failed: {
         alignItems: "left",
         // background: "rgb(244,246,247)",
-        background:
-            "radial-gradient(circle, rgba(244,246,247,1) 0%, rgba(255,16,0,0.5947268907563025) 100%)",
+        background: "#ff3d00",
+        // "linear-gradient(90deg, rgba(255,61,0,0.46551120448179273) 0%, rgba(255,61,0,1) 70%)",
         padding: "5px",
+    },
+    buttonAdd: {
+        float: 'right',
+        width: 'auto',
+        padding: '0px 20px!important',
+        // color:"red !impoertant",
+        backgroundColor: 'green !important',
+        borderRadius: '5px !important',
+        fontSize:"15px !important",
+        height:"35px",
+        margin: '0px 20px 0px 0px !important',
+        // backgroundColor: '#4eb54f !important',
+        // borderRadius: '25px !important',
+        color: '#fff !important',
+
+    },
+    buttonUpdate: {
+        float: 'right',
+        width: 'auto',
+        padding: '0px 20px !important',
+        color:"white",
+        backgroundColor: 'lightblue !important',
+        borderRadius: '5px !important',
+        fontSize:"15px !important",
+        height:"35px",
+
     }
-});
+}))

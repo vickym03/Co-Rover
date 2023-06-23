@@ -13,7 +13,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import { getLoginRequest } from "../actions";
+import { getLoginRequest, resetLogin } from "../actions";
 import MainPage from "./MainPage";
 import Alert from "@mui/material/Alert";
 import IconButton from "@mui/material/IconButton";
@@ -41,7 +41,7 @@ export default function Login() {
   const [openErr, setOpenErr] = React.useState(false);
   const [openNotFou, setOpenNotFou] = React.useState(false);
 
-  console.log("logi", loginData !== undefined && loginData.message);
+  console.log("logi", loginData !== undefined && loginData.login);
 
   const validate = yup.object().shape({
     name: yup
@@ -69,12 +69,42 @@ export default function Login() {
       const password = values.password;
       dispatch(getLoginRequest(name, password));
       resetForm({ values: "" });
-      navigate('/dashboard')
     },
   });
 
-  
+  React.useEffect(() => {
+    if (
+      loginData !== undefined &&
+      loginData.login === true &&
+      loginData.status === 200
+    ) {
+      setOpen(true);
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 1000);
+    } else if (
+      loginData !== undefined &&
+      loginData.login === false &&
+      loginData.status === 404
+    ) {
+      setOpenNotFou(true);
+      dispatch(resetLogin())
+    } else if (
+      loginData !== undefined &&
+      loginData.login === false &&
+      loginData.status === 400
+    ) {
+      setOpenErr(true);
+      dispatch(resetLogin())
+    }
+  }, );
 
+  setTimeout(()=>{
+    setOpen(false);
+    setOpenNotFou(false);
+    setOpenErr(false);
+
+  },10000)
   return (
     <>
       {login && (
@@ -195,10 +225,9 @@ export default function Login() {
                   type="submit"
                   fullWidth
                   variant="contained"
-                  // onClick={}
                   sx={{ mt: 3, mb: 2 }}
                 >
-                  Sign Inq
+                  Sign In
                 </Button>
 
                 <Grid container>
@@ -215,7 +244,7 @@ export default function Login() {
         </ThemeProvider>
       )}
 
-      {dashboard && loginData !== undefined && (
+      {/* {dashboard && loginData !== undefined && (
         <MainPage
           setDashboard={setDashboard}
           setLogin={setLogin}
@@ -223,7 +252,7 @@ export default function Login() {
           setOpenErr={setOpenErr}
           setOpenNotFou={setOpenNotFou}
         />
-      )}
+      )} */}
     </>
   );
 }
