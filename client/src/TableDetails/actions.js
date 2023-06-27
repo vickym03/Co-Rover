@@ -2,6 +2,8 @@ export const ADD_USERS_REQUEST = "ADD_USERS_REQUEST";
 export const ADD_USERS_SUCCESS = "ADD_USERS_SUCCESS";
 export const ADD_USERS_FAILED = "ADD_USERS_FAILED";
 
+export const RESET_ADD_USERS = "RESET_ADD_USERS"
+
 
 export const GET_USERS_REQUEST = "GET_USERS_REQUEST";
 export const GET_USERS_SUCCESS = "GET_USERS_SUCCESS";
@@ -15,16 +17,16 @@ export function addUserRequest(username,
     bankcode,
     usertype,
     mobileno,
-    active, id, insertMode) {
-    console.log("äction", username,
-        level,
-        product,
-        group,
-        bankname,
-        bankcode,
-        usertype,
-        mobileno,
-        active, id, insertMode)
+    active, id, insertMode, clientId) {
+    // console.log("äction", username,
+    //     level,
+    //     product,
+    //     group,
+    //     bankname,
+    //     bankcode,
+    //     usertype,
+    //     mobileno,
+    //     active, id, insertMode, clientId)
     return {
         type: ADD_USERS_REQUEST,
         username: username,
@@ -37,7 +39,8 @@ export function addUserRequest(username,
         mobileno: mobileno,
         active: active,
         id: id,
-        insertMode: insertMode
+        insertMode: insertMode,
+        clientId: clientId
 
     };
 }
@@ -58,21 +61,23 @@ export function addUserFailed(error) {
     };
 }
 
+export const resetAddUsers = () => {
+    return {
+        type: RESET_ADD_USERS
+    }
+}
 
-
-
-export function getUsersRequest(name, password) {
-    console.log("name,password", name, password)
+export function getUsersRequest(clientId) {
+    // console.log("name,password getUsersRequest", clientId)
 
     return {
         type: GET_USERS_REQUEST,
-        name: name,
-        password: password
+        clientId: clientId
     };
 }
 
 export function getUsersSuccess(data) {
-    console.log("data act", data)
+    // console.log("data act", data)
     return {
         type: GET_USERS_SUCCESS,
         payload: data,

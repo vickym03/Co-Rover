@@ -1,11 +1,12 @@
 import { IconButton } from "@mui/material";
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
 import Stack from "@mui/material/Stack";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import MainDashboard from "../../Dashboard/views/MainDashboard";
 import { resetLogin } from "../actions";
+import NavDrawer from "./Drawer";
 
 function MainPage({
   setLogin,
@@ -37,12 +38,12 @@ function MainPage({
   return (
     <div>
       <Stack direction="row" spacing={2}>
-        <IconButton color="secondary" onClick={back}>
+        <IconButton sx={{ color: "black" }} onClick={back}>
           <ArrowBackIcon />
         </IconButton>
       </Stack>
-
-      <MainDashboard />
+      <NavDrawer />
+      {/* <MainDashboard /> */}
     </div>
   );
 }

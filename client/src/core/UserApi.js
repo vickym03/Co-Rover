@@ -6,7 +6,7 @@ const loginApi = (action) => {
         name: action.name,
         password: action.password
     }
-    console.log("body", body)
+    // console.log("body", body)
     return api._post(url, body).then((response) => {
         console.log(response)
         const payload = response
@@ -56,12 +56,13 @@ const addUserApi = (action) => {
         mobileno: action.mobileno,
         active: action.active,
         id: action.id,
-        insertMode: action.insertMode
+        insertMode: action.insertMode,
+        clientId: action.clientId
 
     }
-    console.log("body", body)
+    // console.log("body", body)
     return api._post(url, body).then((response) => {
-        console.log(response)
+        // console.log(response)
         const payload = response
         return {
             payload
@@ -74,11 +75,32 @@ const addUserApi = (action) => {
     })
 }
 
+const getUserDataApi = (action) => {
+    const url = `${process.env.REACT_APP_API_URL}/user/viewUser`
+
+    const body = {
+        clientId: action.clientId,
+
+    }
+    // console.log("body", body)
+    return api._post(url, body).then((response) => {
+        // console.log("res getUserDataApi", response)
+        const payload = response.data
+        return {
+            payload
+        }
+    }).catch((error) => {
+        return {
+            error
+        }
+    })
+}
 
 export const UserApi = {
     loginApi,
     registerApi,
-    addUserApi
+    addUserApi,
+    getUserDataApi
 }
 
 

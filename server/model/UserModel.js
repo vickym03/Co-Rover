@@ -2,9 +2,7 @@ const mongoose = require("mongoose");
 
 const UserModel = new mongoose.Schema({
     id: {
-        type: Number,
-        require: true,
-        unique: true
+        type: Number, require: true, index:true, unique:true,sparse:true
     },
     clientId: {
         type: Number,
@@ -29,25 +27,25 @@ const UserModel = new mongoose.Schema({
         require: true,
     },
     group: {
-        type: Number,
+        type: String,
         require: true,
     },
     level: {
-        type: Number,
+        type: String,
         require: true,
     },
     mobileno:
     {
+        // type: String, require: true, index:true, unique:true,sparse:true
         type: String,
         require: true,
-        unique: true
     },
     product: {
         type: String,
         require: true
     },
     usertype: {
-        type: Number,
+        type: String,
         require: true,
 
     },

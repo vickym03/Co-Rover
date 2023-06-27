@@ -9,57 +9,255 @@ import {
 } from "@mui/x-data-grid";
 import { useTheme } from "@mui/material/styles";
 import { useStyles } from "./style";
-import { Button, Grid } from "@mui/material";
+import { Box, Button, Chip, Grid } from "@mui/material";
 import { GridToolbar } from "@mui/x-data-grid";
+import { sentIcon, readIcon } from "./Icons";
+import ForwardToInboxOutlinedIcon from "@mui/icons-material/ForwardToInboxOutlined";
 
 function TableData() {
   const [pageSize, setPageSize] = React.useState(10);
-  const [selectionModel, setSelectionModel] = React.useState([]);
-  const [selectedRow, setSelectedRow] = React.useState([]);
+  // const [selectionModel, setSelectionModel] = React.useState([]);
+  // const [selectedRow, setSelectedRow] = React.useState([]);
 
   const classes = useStyles();
-
+  const d = "#0088FE";
   const columnData = [
     {
       field: "id",
-      headerName: "id",
+      headerName: "#",
       // flex:1,
-      width: 80,
+      width: 30,
       sortable: false,
-      headerAlign: "center",
       disableExport: true,
+      headerClassName: "super-app-theme--header",
+
       //   renderCell: renderCellExpand,
     },
     {
-      field: "lastName",
-      headerName: "lastName",
+      field: "appid",
+      headerName: "App ID",
       flex: 1,
+      headerClassName: "super-app-theme--header",
+
       //   renderCell: renderCellExpand,
     },
     {
-      field: "firstName",
-      headerName: "firstName",
+      field: "username",
+      headerName: "User Name",
       flex: 1,
+      headerClassName: "super-app-theme--header",
+
+      //   renderCell: renderCellExpand,
+    },
+    {
+      field: "phoneno",
+      headerName: "Phone Number",
+      flex: 1,
+      headerClassName: "super-app-theme--header",
+
       //   renderCell: renderCellExpand,
     },
 
     {
-      field: "age",
-      headerName: "age",
+      field: "accno",
+      headerName: "Account Number",
       flex: 1,
+      headerClassName: "super-app-theme--header",
+
       //   renderCell: renderCellExpand,
+    },
+    {
+      field: "mssgid",
+      headerName: "Message ID",
+      flex: 1,
+      headerClassName: "super-app-theme--header",
+
+      //   renderCell: renderCellExpand,
+    },
+    {
+      field: "mssgtype",
+      headerName: "Message Type",
+      flex: 1,
+      headerClassName: "super-app-theme--header",
+
+      //   renderCell: renderCellExpand,
+    },
+
+ 
+
+    // rednder
+    {
+      field: "answer",
+      headerName: "Answered",
+      flex: 1,
+      headerClassName: "super-app-theme--header",
+    },
+
+    {
+      field: "mssgno",
+      headerName: "No of Messages",
+      flex: 1,
+      headerClassName: "super-app-theme--header",
+
+      //   renderCell: renderCellExpand,
+    },
+
+    {
+      field: "bank",
+      headerName: "Bank",
+      flex: 1,
+      headerClassName: "super-app-theme--header",
+
+      //   renderCell: renderCellExpand,
+    },
+    {
+      field: "product",
+      headerName: "Product",
+      flex: 1,
+      headerClassName: "super-app-theme--header",
+
+      //   renderCell: renderCellExpand,
+    },
+
+    {
+      field: "level",
+      headerName: "Level",
+      flex: 1,
+      headerClassName: "super-app-theme--header",
+
+      //   renderCell: renderCellExpand,
+    },
+    {
+      field: "usertype",
+      headerName: "User Type",
+      flex: 1,
+      headerClassName: "super-app-theme--header",
+
+      //   renderCell: renderCellExpand,
+    },
+
+   
+    {
+      field: "rawres",
+      headerName: "Raw Response",
+      width: 125,
+      headerClassName: "super-app-theme--header",
+
+      //   renderCell: renderCellExpand,
+      renderCell: (params) => {
+        if (params.value === "isDelivered") {
+          // return(<div> hello false</div>)
+          return (
+            <div>
+              <Chip
+                variant="outlined"
+                label="isDelivered"
+                sx={{ backgroundColor: "green", color: "white" }}
+
+                // icon={<ForwardToInboxOutlinedIcon />}
+              />
+            </div>
+          );
+        } else if (params.value === "isFailed") {
+          return (
+            <div>
+              <Chip
+                variant="outlined"
+                sx={{ backgroundColor: "#EF5350 ", color: "white" }}
+                label="isFailed"
+              />
+            </div>
+          );
+        } else if (params.value === "isSend") {
+          return (
+            <div>
+              <Chip
+                variant="outlined"
+                style={{ backgroundColor: "#85C1E9 ", color: "white" }}
+
+                label="isSent"
+              />
+            </div>
+          );
+        } else {
+          return (
+            <div>
+              <Chip
+                variant="outlined"
+                sx={{ backgroundColor: "#2980B9", color: "white" }}
+                label="isRead"
+              />
+            </div>
+          );
+        }
+      },
     },
   ];
   const rows = [
-    { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
-    { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
-    { id: 3, lastName: "Lannister", firstName: "Jaime", age: 45 },
-    { id: 4, lastName: "Stark", firstName: "Arya", age: 16 },
-    { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
-    { id: 6, lastName: "Melisandre", firstName: null, age: 150 },
-    { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-    { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
-    { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
+    {
+      id: 1,
+      username: "Tom",
+      appid: 1234,
+      phoneno: 1234567890,
+      accno: 1234567,
+      mssgid: 1233,
+      mssgtype: "text",
+      usertype: "user",
+      rawres: "isDelivered",
+      answer: 2,
+      mssgno: 4,
+      bank: "SBI",
+      product: "Laptop",
+      level: "Beginner",
+    },
+    {
+      id: 2,
+      username: "Tom",
+      appid: 1234,
+      phoneno: 1234567890,
+      accno: 1234567,
+      mssgid: 1233,
+      mssgtype: "text",
+      usertype: "user",
+      rawres: "isSend",
+      answer: 2,
+      mssgno: 4,
+      bank: "SBI",
+      product: "Laptop",
+      level: "Beginner",
+    },
+    {
+      id: 3,
+      username: "Tom",
+      appid: 1234,
+      phoneno: 1234567890,
+      accno: 1234567,
+      mssgid: 1233,
+      mssgtype: "text",
+      usertype: "user",
+      rawres: "isRead",
+      answer: 2,
+      mssgno: 4,
+      bank: "SBI",
+      product: "Laptop",
+      level: "Beginner",
+    },
+    {
+      id: 4,
+      username: "Jeery",
+      appid: 2345,
+      phoneno: 1234567890,
+      accno: 1234567,
+      mssgid: 1233,
+      mssgtype: "media",
+      usertype: "user",
+      rawres: "isFailed",
+      answer: 2,
+      mssgno: 4,
+      bank: "SBI",
+      product: "Laptop",
+      level: "Beginner",
+    },
   ];
 
   /*
@@ -82,24 +280,34 @@ function TableData() {
       </GridToolbarContainer>
     );
   }
-  console.log("       {selectionModel}", selectionModel, selectedRow);
+  // console.log("       {selectionModel}", selectionModel, selectedRow);
 
   return (
-    <div>
-      
-      <Grid sx={{ padding: "30px" }}>
+    <Grid sx={{ paddingTop: "20px" }}>
+      <Box
+        sx={{
+          height: 500,
+
+          width: "100%",
+          "& .super-app-theme--header": {
+            backgroundColor: "#E5E7E9 ",
+            fontWeight: "bold",
+          },
+        }}
+      >
+        {/* <Grid sx={{ padding: "30px" }}> */}
         <DataGrid
           //  className={classes.DataTable}
           //   checkboxSelection={del}
-          selectionModel={selectionModel}
-          onSelectionModelChange={(ids) => {
-            setSelectionModel(ids);
-            const selectedIDs = new Set(ids);
-            const selectedRowData = rows.filter((row) =>
-              selectedIDs.has(row.id)
-            );
-            setSelectedRow(selectedRowData);
-          }}
+          // selectionModel={selectionModel}
+          // onSelectionModelChange={(ids) => {
+          //   setSelectionModel(ids);
+          //   const selectedIDs = new Set(ids);
+          //   const selectedRowData = rows.filter((row) =>
+          //     selectedIDs.has(row.id)
+          //   );
+          //   setSelectedRow(selectedRowData);
+          // }}
           rows={rows ? rows : []}
           columns={
             columnData && columnData.length > 0
@@ -114,7 +322,7 @@ function TableData() {
           rowsPerPageOptions={[20, 50, 100]}
           componentsProps={{
             pagination: {
-              labelRowsPerPage: "RowsPerPage",
+              // labelRowsPerPage: "RowsPerPage",
               showFirstButton: true,
               showLastButton: true,
             },
@@ -127,8 +335,9 @@ function TableData() {
             NoResultsOverlay: () => <main>ErrorNoRecords</main>,
           }}
           disableSelectionOnClick={false}
+          disableRowSelectionOnClick={true}
           onCellClick={(params) => {
-            setSelectedRow(params.row);
+            // setSelectedRow(params.row);
             // setShowUpdate(modify);
             // setShowForm(modify);
             // setShowTable(!modify);
@@ -136,8 +345,9 @@ function TableData() {
           pagination
           {...rows}
         />
-      </Grid>
-    </div>
+        {/* </Grid> */}
+      </Box>
+    </Grid>
   );
 }
 

@@ -30,14 +30,18 @@ function Router() {
 
             <BrowserRouter>
                 <Routes>
+               
 
-                    <Route exact path="/" element={<Login />} />
+                        <Route exact path="/login" element={<Login />} />
+                        <Route path="/register" element={<Register />} />
+                        <Route path="*" element={<Navigate to='/login' replace />} />
+                
 
-                    {value && <>   <Route path="/register" element={<Register />} />
+                    {value && <>
                         <Route path="/dashboard" element={<MainPage />} />
                         <Route path="/userDetails" element={<TableUserData />} />
                     </>}
-                    <Route path="*" element={<Navigate to='/' replace />} />
+
                 </Routes>
 
             </BrowserRouter>

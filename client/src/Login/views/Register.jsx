@@ -21,6 +21,8 @@ import IconButton from "@mui/material/IconButton";
 import Collapse from "@mui/material/Collapse";
 import CloseIcon from "@mui/icons-material/Close";
 import { getRegisterRequest } from "../actions";
+import Paper from '@mui/material/Paper';
+
 const theme = createTheme();
 
 export default function Register() {
@@ -78,6 +80,7 @@ export default function Register() {
     }
   }, [registerData]);
   return (
+
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -189,5 +192,6 @@ export default function Register() {
         </Box>
       </Container>
     </ThemeProvider>
+
   );
 }

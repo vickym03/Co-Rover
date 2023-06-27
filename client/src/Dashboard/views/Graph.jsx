@@ -17,7 +17,7 @@ import {
 } from "recharts";
 
 const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#F4F6F7",
+  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#ffffff",
   ...theme.typography.body2,
   padding: theme.spacing(1),
   //   textAlign: "center",
@@ -28,46 +28,42 @@ export default function Graph() {
   /***********************line Grpah *************************/
   const lineGraphData = [
     {
-      name: "Page A",
-      uv: 4000,
-      pv: 2400,
-      amt: 2400,
+      name: "Send",
+      uv: 10,
     },
     {
-      name: "Page B",
-      uv: 3000,
-      pv: 1398,
-      amt: 2210,
+      name: "Delivered",
+      uv: 6,
+     
     },
     {
-      name: "Page C",
-      uv: 2000,
-      pv: 9800,
-      amt: 2290,
+      name: "Read",
+      uv: 4,
+      // pv: 9800,
+      // amt: 2290,
     },
     {
-      name: "Page D",
-      uv: 2780,
-      pv: 3908,
-      amt: 2000,
+      name: "Clicked",
+      uv: 5,
+      // pv: 10,
+      // amt: 2000,
     },
     {
-      name: "Page E",
-      uv: 1890,
-      pv: 4800,
-      amt: 2181,
+      name: "Replied",
+      uv: 7,
+      pv: 10,
+      // amt: 2181,
     },
     {
-      name: "Page F",
-      uv: 2390,
-      pv: 3800,
-      amt: 2500,
+      name: "Failed",
+      uv: 8,
+      //  pv: 10,
+      // amt: 2500,
     },
-   
   ];
   /***************Pie chart***************/
   const data = [
-    { name: "Group A", value: 10 },
+    { name: "Send", value: 10 },
     { name: "Group B", value: 6 },
     { name: "Group C", value: 4 },
     { name: "Group D", value: 5 },
@@ -75,7 +71,14 @@ export default function Graph() {
     { name: "Group F", value: 8 },
   ];
 
-  const COLORS = ["#0088FE", "#4caf50  ","#1769aa  ", "#1de9b6  ", "#FF8042", "#ff3d00"];
+  const COLORS = [
+    "#85C1E9",
+    "#82E0AA ",
+    "#2980B9 ",
+    "#BB8FCE  ",
+    "#F0B27A",
+    "#EF5350",
+  ];
 
   const RADIAN = Math.PI / 180;
   const renderCustomizedLabel = ({
@@ -87,7 +90,7 @@ export default function Graph() {
     percent,
     Legend,
     index,
-    name
+    name,
   }) => {
     const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
     const x = cx + radius * Math.cos(-midAngle * RADIAN);
@@ -100,27 +103,25 @@ export default function Graph() {
         fill="white"
         textAnchor={x > cx ? "start" : "end"}
         dominantBaseline="central"
-        
       >
-        {`${(percent * 100).toFixed(0)}%`} 
-
+        {`${(percent * 100).toFixed(0)}%`}
       </text>
     );
   };
 
   return (
     <div>
-      <Typography sx={{ flexGrow: 1, paddingLeft: "30px " }} variant="h5">
+      {/* <Typography sx={{ flexGrow: 1 }} variant="h5">
         Graph
-      </Typography>
-      <Box sx={{ flexGrow: 1, padding: "15px 30px 30px 30px" }}>
+      </Typography> */}
+      <Box sx={{ flexGrow: 1 }}>
         <Grid item xs={12}>
           <Grid container spacing={5}>
             <Grid item xs={8}>
               <Item>
-                <Typography variant="h6" sx={{ color: "black" }}>
+                {/* <Typography variant="h6" sx={{ color: "black" }}>
                   Area Chart
-                </Typography>
+                </Typography> */}
                 <AreaChart
                   width={900}
                   height={400}
@@ -162,35 +163,30 @@ export default function Graph() {
             </Grid>
             <Grid item xs={4}>
               <Item>
-                <Typography variant="h6" sx={{ color: "black" }}>
+                {/* <Typography variant="h6" sx={{ color: "black" }}>
                   Pie Graph
-                </Typography>
+                </Typography> */}
                 <PieChart width={400} height={400}>
                   <Pie
                     data={data}
                     cx={200}
                     cy={200}
                     labelLine={false}
-                    Label    
+                    Label
                     label={renderCustomizedLabel}
                     // outerRadius={80}
                     Legend
                     fill="#8884d8"
                     dataKey="value"
                   >
-
                     {data.map((entry, index) => (
                       <Cell
                         key={`cell-${index}`}
                         fill={COLORS[index % COLORS.length]}
                       />
-
                     ))}
                   </Pie>
-                  
                 </PieChart>
-
-                
               </Item>
             </Grid>
           </Grid>

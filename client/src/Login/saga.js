@@ -5,7 +5,7 @@ import { UserApi } from "../core/UserApi";
 function* registerUsers(action) {
     const { payload, error } = yield call(UserApi.registerApi, action)
     if (payload) {
-        console.log("saga pay", payload)
+        // console.log("saga pay", payload)
         yield put(getRegisterSuccess(payload))
     } else {
         yield put(getRegisterFailed(error))
@@ -17,7 +17,7 @@ function* loginUsers(action) {
 
   const { payload, error } = yield call(UserApi.loginApi, action);
     if (payload) {
-        console.log("saga pay", payload)
+        // console.log("saga pay", payload)
         yield put(getLoginSuccess(payload));
     } else {
         yield put(getLoginFailed(error));

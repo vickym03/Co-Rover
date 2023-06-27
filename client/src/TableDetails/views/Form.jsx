@@ -11,7 +11,15 @@ import { useStyles } from "./style";
 import * as yup from "yup";
 import MenuItem from "@mui/material/MenuItem";
 import { useDispatch, useSelector } from "react-redux";
-import { addUserRequest } from "../actions";
+import { addUserRequest, getUsersRequest, resetAddUsers } from "../actions";
+import SaveIcon from "@mui/icons-material/Save";
+import HighlightOffSharpIcon from "@mui/icons-material/HighlightOffSharp";
+import Stack from "@mui/material/Stack";
+import CloseIcon from "@mui/icons-material/Close";
+import Alert from "@mui/material/Alert";
+import Collapse from "@mui/material/Collapse";
+import { IconButton } from "@mui/material";
+import Footer from "../../Dashboard/views/Footer";
 
 function Form(props) {
   const {
@@ -26,16 +34,23 @@ function Form(props) {
   const classes = useStyles();
 
   const [insertMode, setInsertMode] = useState(0);
-  const [id, setId] = useState("");
+  const [save, setSave] = React.useState(false);
+  const [openErr, setOpenErr] = React.useState(false);
+  const [updatedStatus, setUpdatedStatus] = React.useState(false);
+  const [updatedStatuSave, setUpdatedStatuSave] = React.useState(false);
 
   const getData = useSelector((state) => {
     return {
       loginData: state.usersReducer.login,
+      adduser: state.addUsersReducer.addUser,
+      userData: state.addUsersReducer.userData,
+      adduserStatus: state.addUsersReducer.adduserStatus,
     };
   });
 
-  const { loginData } = getData;
+  const { loginData, adduser, userData, adduserStatus } = getData;
 
+  const clientId = loginData["data"]["clientId"];
 
   // const {
   //   id,
@@ -60,7 +75,11 @@ function Form(props) {
       .max(50, "Max 50 characters"),
 
     // level
-    level: yup.number().required("Required*").min(1, "Min 1 characters"),
+    level: yup
+      .string()
+      .required("Required*")
+      .min(2, "Min 2 characters")
+      .max(50, "Max 50 characters"),
 
     // Product
     product: yup
@@ -71,7 +90,11 @@ function Form(props) {
       .max(50, "Max 50 characters"),
 
     // Group
-    group: yup.number().required("Required*").min(1, "Min 1 characters"),
+    group: yup
+      .string()
+      .required("Required*")
+      .min(2, "Min 2 characters")
+      .max(50, "Max 50 characters"),
 
     // BankName
     bankname: yup
@@ -99,7 +122,11 @@ function Form(props) {
       .max(16, "Max 16 characters"),
 
     // UserType
-    usertype: yup.number().required("Required*").min(1, "Min 1 characters"),
+    usertype: yup
+      .string()
+      .required("Required*")
+      .min(2, "Min 2 characters")
+      .max(50, "Max 50 characters"),
 
     //  Active
     active: yup.boolean(),
@@ -131,7 +158,7 @@ function Form(props) {
         mobileno,
         active,
       } = values;
-      console.log("values", values);
+      // console.log("values", values);
 
       dispatch(
         addUserRequest(
@@ -144,17 +171,39 @@ function Form(props) {
           usertype,
           mobileno,
           active,
-          id,
-          insertMode
+          selectedRow.id,
+          insertMode,
+          clientId
         )
       );
+
+      dispatch(getUsersRequest(clientId));
+      setSave(false);
+      setOpenErr(false);
+      setUpdatedStatus(false);
+      dispatch(resetAddUsers());
+
+      // setFormview(false);
+      // setTableview(true);
+
+      setTimeout(() => {
+        // navigate("/dashboard");
+        // setFormview(false);
+        // setTableview(true);
+        dispatch(resetAddUsers());
+      }, 5000);
     },
   });
   const handleTableView = () => {
     setFormview(false);
+    setSave(false);
+    setOpenErr(false);
+    setUpdatedStatus(false);
     setTableview(true);
     setSelectedRow([]);
     setShowUpdate(false);
+    dispatch(getUsersRequest(clientId));
+    dispatch(resetAddUsers());
   };
   const level = [
     { value: 1, label: "Beginner" },
@@ -165,8 +214,8 @@ function Form(props) {
   const group = [
     { value: 1, label: "Work" },
     { value: 2, label: "Family" },
-    { value: 1, label: "Friends" },
-    { value: 2, label: "Others" },
+    { value: 3, label: "Friends" },
+    { value: 4, label: "Others" },
   ];
 
   const usertype = [
@@ -176,24 +225,167 @@ function Form(props) {
     { value: 4, label: "Others" },
   ];
 
+  useEffect(() => {
+    if (showUpdate) {
+      setInsertMode(1);
+    } else {
+      setInsertMode(0);
+    }
+  }, [showUpdate]);
 
+  useEffect(() => {
+    dispatch(getUsersRequest(clientId));
+  }, [insertMode]);
 
+  useEffect(() => {
+    dispatch(getUsersRequest(clientId));
+  }, []);
 
-  useEffect(()=>{
-  if (showUpdate) {
-    setInsertMode(1);
-  } else {
-    setInsertMode(0);
-  }
-  },[showUpdate])
+  // useEffect(() => {
+  //   if (selectedRow.Active === "Active") setActiveStatus(true);
+  //   else setActiveStatus(false);
+  // }, [selectedRow]);
+
+  // console.log("sww", selectedRow.Active , activeStatus)
+
+  React.useEffect(() => {
+    if (adduser !== undefined && adduserStatus && adduser.status === 200) {
+      setSave(true);
+
+      setTimeout(() => {
+        // navigate("/dashboard");
+        setFormview(false);
+        setTableview(true);
+        dispatch(resetAddUsers());
+      }, 1000);
+    } else if (
+      adduser !== undefined &&
+      adduserStatus &&
+      adduser.status === 201
+    ) {
+      setUpdatedStatus(true);
+      setTimeout(() => {
+        setFormview(false);
+        setTableview(true);
+        dispatch(resetAddUsers());
+      }, 1000);
+    } else if (
+      adduser !== undefined &&
+      adduserStatus &&
+      adduser.status === 403
+    ) {
+      setOpenErr(true);
+    } else if (
+      adduser !== undefined &&
+      adduserStatus &&
+      adduser.status === 405
+    ) {
+      setUpdatedStatuSave(true);
+    }
+  }, [adduser]);
 
   return (
     <div>
+      <Box
+        sx={{
+          marginTop: 8,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          position: "absolute",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          width: 400,
+          p: 4,
+        }}
+      >
+        <Collapse in={save}>
+          <Alert
+            severity="success"
+            action={
+              <IconButton
+                aria-label="close"
+                color="inherit"
+                size="small"
+                onClick={() => {
+                  setSave(false);
+                }}
+              >
+                <CloseIcon fontSize="inherit" />
+              </IconButton>
+            }
+            sx={{ mb: 2 }}
+          >
+            User add successfully !
+          </Alert>
+        </Collapse>
+        <Collapse in={updatedStatus}>
+          <Alert
+            severity="info"
+            action={
+              <IconButton
+                aria-label="close"
+                color="inherit"
+                size="small"
+                onClick={() => {
+                  setUpdatedStatus(false);
+                }}
+              >
+                <CloseIcon fontSize="inherit" />
+              </IconButton>
+            }
+            sx={{ mb: 2 }}
+          >
+            User data updated !
+          </Alert>
+        </Collapse>
+        <Collapse in={openErr}>
+          <Alert
+            severity="error"
+            action={
+              <IconButton
+                aria-label="close"
+                color="inherit"
+                size="small"
+                onClick={() => {
+                  setOpenErr(false);
+                }}
+              >
+                <CloseIcon fontSize="inherit" />
+              </IconButton>
+            }
+            sx={{ mb: 2 }}
+          >
+            Can't update. Mobile exists with another User {}
+          </Alert>
+        </Collapse>
+        <Collapse in={updatedStatuSave}>
+          <Alert
+            severity="success"
+            action={
+              <IconButton
+                aria-label="close"
+                color="inherit"
+                size="small"
+                onClick={() => {
+                  setUpdatedStatuSave(false);
+                }}
+              >
+                <CloseIcon fontSize="inherit" />
+              </IconButton>
+            }
+            sx={{ mb: 2 }}
+          >
+            Can't save. Mobile exists with another User
+          </Alert>
+        </Collapse>
+      </Box>
+
       <Grid sx={{ padding: "30px" }}>
         <Typography variant="h4" sx={{ padding: "0px 0px 30px 0px" }}>
           User Form
         </Typography>
-        <Card sx={{ display: "flex" }}>
+        <Card sx={{ display: "flex", paddingTop: "40px" }}>
           <Box
             component="form"
             sx={{
@@ -270,27 +462,6 @@ function Form(props) {
             </div>
             <div>
               <TextField
-                select
-                margin="normal"
-                size="medium"
-                id="level"
-                label="Level"
-                name="level"
-                type="number"
-                autoComplete="off"
-                onChange={formik.handleChange}
-                value={formik.values.level}
-                error={formik.touched.level && Boolean(formik.errors.level)}
-                helperText={formik.touched.level && formik.errors.level}
-              >
-                {level.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </TextField>
-
-              <TextField
                 // className={classes.selectTextfiledsCustom}
                 id="product"
                 label={"Product"}
@@ -308,6 +479,27 @@ function Form(props) {
                 select
                 margin="normal"
                 size="medium"
+                id="level"
+                label="Level"
+                name="level"
+                type="number"
+                autoComplete="off"
+                onChange={formik.handleChange}
+                value={formik.values.level}
+                error={formik.touched.level && Boolean(formik.errors.level)}
+                helperText={formik.touched.level && formik.errors.level}
+              >
+                {level.map((option) => (
+                  <MenuItem key={option.value} value={option.label}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+
+              <TextField
+                select
+                margin="normal"
+                size="medium"
                 id="group"
                 label={"Group"}
                 // disabled={update ? true : false}
@@ -320,7 +512,7 @@ function Form(props) {
                 helperText={formik.touched.group && formik.errors.group}
               >
                 {group.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
+                  <MenuItem key={option.value} value={option.label}>
                     {option.label}
                   </MenuItem>
                 ))}
@@ -344,37 +536,51 @@ function Form(props) {
                 helperText={formik.touched.usertype && formik.errors.usertype}
               >
                 {usertype.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
+                  <MenuItem key={option.value} value={option.label}>
                     {option.label}
                   </MenuItem>
                 ))}
               </TextField>
             </div>
-            <Switch
-              checked={formik.values.active}
-              onChange={formik.handleChange}
-              // disabled={showUpdate}
-              formControlStyle={classes.formControl}
-              name="activeStatus"
-              label="Is Active"
-              color="success"
-            />
 
-            <Grid padding={{ padding: "100px 0px 100px 0px" }}>
+            <Stack
+              direction="row"
+              spacing={1}
+              alignItems="center"
+              sx={{ padding: "0px 0px 0px 20px" }}
+            >
+              {/* <Typography>Off</Typography> */}
+              <Grid>
+                <Switch
+                  checked={formik.values.active}
+                  onChange={formik.handleChange}
+                  // disabled={showUpdate}
+                  formControlStyle={classes.formControl}
+                  name="active"
+                  label="Is Active"
+                  color="success"
+                />
+              </Grid>
+              <Typography>
+                {formik.values.active ? "Active" : "In Active"}
+              </Typography>
+            </Stack>
+
+            <Grid padding={{ padding: "150px 0px 100px 0px" }}>
               <Grid sx={{ paddingRight: "28px " }}>
                 <Button
                   className={classes.cancelBtn}
-                  // startIcon={<AddIcon />}
+                  startIcon={<HighlightOffSharpIcon />}
                   onClick={handleTableView}
                 >
                   cancel
                 </Button>
               </Grid>
-              <Grid sx={{ paddingRight: "150px " }}>
+              <Grid sx={{ paddingRight: "180px " }}>
                 <Button
                   className={classes.saveBtn}
                   onClick={formik.handleSubmit}
-                  // startIcon={<AddIcon />}
+                  startIcon={<SaveIcon />}
                 >
                   save
                 </Button>
@@ -383,6 +589,7 @@ function Form(props) {
           </Box>
         </Card>
       </Grid>
+      <Footer />
     </div>
   );
 }

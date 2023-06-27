@@ -32,43 +32,43 @@ export const useStyles = makeStyles(theme=>({
     sent: {
         alignItems: "left",
         // background: "rgb(244,246,247)",
-        background:
-            "radial-gradient(circle, rgba(244,246,247,1) 0%, rgba(0,136,254,0.5139705882352942) 100%)",
+        background: "#85C1E9 ",
+            // "radial-gradient(circle, rgba(244,246,247,1) 0%, rgba(0,136,254,0.5139705882352942) 100%)",
         padding: "5px",
     },
     delivered: {
         alignItems: "left",
         // background: "rgb(244,246,247)",
-        background:
-            "radial-gradient(circle, rgba(244,246,247,1) 0%, rgba(76,175,80,0.506687675070028) 100%)",
+        background: "#82E0AA ",
+            // "radial-gradient(circle, rgba(244,246,247,1) 0%, rgba(76,175,80,0.506687675070028) 100%)",
         padding: "5px",
     },
     read: {
         alignItems: "left",
         // background: "rgb(244,246,247)",
-        background:
-            "radial-gradient(circle, rgba(244,246,247,1) 0%, rgba(23,105,170,0.5120098039215687) 100%)",
+        background: "#2980B9",
+            // "radial-gradient(circle, rgba(244,246,247,1) 0%, rgba(23,105,170,0.5120098039215687) 100%)",
         padding: "5px",
     },
     clicked: {
         alignItems: "left",
         // background: "rgb(244,246,247)",
-        background:
-            "radial-gradient(circle, rgba(244,246,247,1) 0%, rgba(29,233,182,0.5439425770308124) 100%)",
+        background: "#BB8FCE ",
+            // "radial-gradient(circle, rgba(244,246,247,1) 0%, rgba(29,233,182,0.5439425770308124) 100%)",
         padding: "5px",
         color: "black",
     },
     replied: {
         alignItems: "left",
         // background: "rgb(244,246,247)",
-        background:
-            "radial-gradient(circle, rgba(244,246,247,1) 0%, rgba(255,128,66,0.5047268907563025) 100%)",
+        background:"#F0B27A",
+            // "radial-gradient(circle, rgba(244,246,247,1) 0%, rgba(255,128,66,0.5047268907563025) 100%)",
         padding: "5px",
     },
     failed: {
         alignItems: "left",
         // background: "rgb(244,246,247)",
-        background: "#ff3d00",
+        background: "#EF5350  ",
         // "linear-gradient(90deg, rgba(255,61,0,0.46551120448179273) 0%, rgba(255,61,0,1) 70%)",
         padding: "5px",
     },

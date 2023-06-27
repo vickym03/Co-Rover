@@ -40,7 +40,7 @@ export function resetLogin() {
 
 
 export function getLoginRequest(name, password) {
-  console.log("name,password", name, password)
+  // console.log("name,password", name, password)
 
   return {
     type: LOGIN_USERS_REQUEST,
@@ -50,7 +50,7 @@ export function getLoginRequest(name, password) {
 }
 
 export function getLoginSuccess(data) {
-  console.log("data act", data)
+  // console.log("data act", data)
   return {
     type: LOGIN_USERS_SUCCESS,
     payload: data,

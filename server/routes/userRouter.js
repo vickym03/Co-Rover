@@ -54,7 +54,6 @@ userRouter.post('/addUser', function (request, response) {
         testvalue: { type: Number }
     });
 
-    console.log("entitySchema", entitySchema.$id)
 
     const UserDoc = new UserModel({
         id: entitySchema.$id,
@@ -73,29 +72,31 @@ userRouter.post('/addUser', function (request, response) {
     })
 
     if (request.body.insertMode === 0) {
-        console.log("insert")
-        UserModel.findOne({ mobileno: request.body.mobileno })
+        console.log("insert mode 0")
+        UserModel.findOne({ mobileno: request.body.mobileno, clientId: request.body.clientId })
             .then((users) => {
                 if (users) {
+                    console.log("insert mode 0 mobile exists")
+
                     response.status(200).send({
                         data: {
-                            message: "User exists",
-                            data: request.body.mobileno,
-                            status: 401
+                            message: "Can't save. Mobile exists with another User",
+                            data: users.username,
+                            status: 405
                         }
                     })
                 }
                 else {
-                    console.log("insert 1")
+                    console.log("inserted")
 
                     UserDoc.save()
                         .then((result) => {
-                            console.log("res", result)
-                            response.status(201).send({
+                            // console.log("res", result)
+                            response.status(200).send({
                                 data: {
                                     message: "User created successfully",
                                     data: result,
-                                    status: 201
+                                    status: 200
                                 }
                             })
 
@@ -116,19 +117,24 @@ userRouter.post('/addUser', function (request, response) {
     }
     else {
 
-        UserModel.findOne({ mobileno: request.body.mobileno })
+        console.log("inserted mode 1 update")
+
+
+
+        UserModel.findOne({ mobileno: request.body.mobileno, clientId: request.body.clientId })
             .then((users) => {
-                console.log("users", users)
-                if (users) {
+
+                if (users !== null && users.id !== request.body.id) {
                     response.status(200).send({
                         data: {
-                            message: "User Mobile No exists",
-                            data: request.body.mobileno,
-                            status: 401
+                            message: "Can't update. Mobile exists with another User",
+                            dataStatus: users.username,
+                            status: 403
                         }
                     })
                 } else {
-                    console.log("insert update")
+
+                    console.log("updated update")
 
                     const updatedValue = {
                         // id: entitySchema.$id,
@@ -145,13 +151,14 @@ userRouter.post('/addUser', function (request, response) {
                         modified: moment().format('MMMM Do YYYY, h:mm:ss a')
                     }
 
-                    const filterValue = { id: request.body.id }
+                    const filterValue = { id: request.body.id, clientId: request.body.clientId }
 
                     // console.log("updatevale", updatedValue)
 
-                    UserModel.findOneAndUpdate(filterValue, updatedValue, { upsert: true, new: true, setDefaultsOnInsert: true })
+                    UserModel.findOneAndUpdate(filterValue, updatedValue,
+                        { upsert: true, new: true, setDefaultsOnInsert: true })
                         .then((result) => {
-                            // console.log("up", result)
+                            console.log("up", result)
                             response.status(201).send({
                                 data: {
                                     message: "User updated successfully",
@@ -169,12 +176,15 @@ userRouter.post('/addUser', function (request, response) {
                                 }
                             })
                         })
+
                 }
             })
 
-    }
 
+    }
 })
+
+
 
 
 
@@ -191,13 +201,17 @@ userRouter.post('/addUser', function (request, response) {
 userRouter.post('/viewUser', function (request, response) {
 
     UserModel.find({ clientId: request.body.clientId }).then((data) => {
-        console.log("data", data)
+        // console.log("data", data)
 
         if (data && data.length > 0 && data !== undefined) {
 
             response.status(200).send({
-                message: "User data fetched successfully",
-                data: data
+
+                data: {
+                    message: "User data fetched successfully",
+                    data: data,
+                    status: 200
+                }
             })
         } else {
             response.status(404).send({
