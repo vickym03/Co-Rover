@@ -21,6 +21,9 @@ import Collapse from "@mui/material/Collapse";
 import CloseIcon from "@mui/icons-material/Close";
 import { useNavigate } from "react-router-dom";
 import { Card } from "@mui/material";
+import InputAdornment from "@mui/material/InputAdornment";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 const theme = createTheme();
 
@@ -36,8 +39,8 @@ export default function Login() {
 
   const { loginData } = getData;
 
+  const [showPassword, setShowPassword] = React.useState(false);
   const [login, setLogin] = React.useState(true);
-  const [dashboard, setDashboard] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const [openErr, setOpenErr] = React.useState(false);
   const [openNotFou, setOpenNotFou] = React.useState(false);
@@ -72,6 +75,12 @@ export default function Login() {
       resetForm({ values: "" });
     },
   });
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
 
   React.useEffect(() => {
     if (
@@ -108,81 +117,84 @@ export default function Login() {
   return (
     <>
       {login && (
-        
         <ThemeProvider theme={theme}>
           <Box
-              sx={{
-                marginTop: 4,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <Collapse in={open}>
-                <Alert
-                  severity="success"
-                  action={
-                    <IconButton
-                      aria-label="close"
-                      color="inherit"
-                      size="small"
-                      onClick={() => {
-                        setOpen(false);
-                      }}
-                    >
-                      <CloseIcon fontSize="inherit" />
-                    </IconButton>
-                  }
-                  sx={{ mb: 2 }}
-                >
-                  Login Success
-                </Alert>
-              </Collapse>
-              <Collapse in={openNotFou}>
-                <Alert
-                  severity="info"
-                  action={
-                    <IconButton
-                      aria-label="close"
-                      color="inherit"
-                      size="small"
-                      onClick={() => {
-                        setOpenNotFou(false);
-                      }}
-                    >
-                      <CloseIcon fontSize="inherit" />
-                    </IconButton>
-                  }
-                  sx={{ mb: 2 }}
-                >
-                  User not found register for signup
-                </Alert>
-              </Collapse>
-              <Collapse in={openErr}>
-                <Alert
-                  severity="error"
-                  action={
-                    <IconButton
-                      aria-label="close"
-                      color="inherit"
-                      size="small"
-                      onClick={() => {
-                        setOpenErr(false);
-                      }}
-                    >
-                      <CloseIcon fontSize="inherit" />
-                    </IconButton>
-                  }
-                  sx={{ mb: 2 }}
-                >
-                  Login Failed
-                </Alert>
-              </Collapse>
-              </Box>
+            sx={{
+             marginTop:"-16px",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              position: "absolute",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: 400,
+              // p: 4,
+            }}
+          >
+            <Collapse in={open}>
+              <Alert
+                severity="success"
+                action={
+                  <IconButton
+                    aria-label="close"
+                    color="inherit"
+                    size="small"
+                    onClick={() => {
+                      setOpen(false);
+                    }}
+                  >
+                    <CloseIcon fontSize="inherit" />
+                  </IconButton>
+                }
+                sx={{ mb: 2 }}
+              >
+                Login Success
+              </Alert>
+            </Collapse>
+            <Collapse in={openNotFou}>
+              <Alert
+                severity="info"
+                action={
+                  <IconButton
+                    aria-label="close"
+                    color="inherit"
+                    size="small"
+                    onClick={() => {
+                      setOpenNotFou(false);
+                    }}
+                  >
+                    <CloseIcon fontSize="inherit" />
+                  </IconButton>
+                }
+                sx={{ mb: 2 }}
+              >
+                User not found register for signup
+              </Alert>
+            </Collapse>
+            <Collapse in={openErr}>
+              <Alert
+                severity="error"
+                action={
+                  <IconButton
+                    aria-label="close"
+                    color="inherit"
+                    size="small"
+                    onClick={() => {
+                      setOpenErr(false);
+                    }}
+                  >
+                    <CloseIcon fontSize="inherit" />
+                  </IconButton>
+                }
+                sx={{ mb: 2 }}
+              >
+                Login Failed
+              </Alert>
+            </Collapse>
+          </Box>
           <Container component="main" maxWidth="xs">
             <CssBaseline />
 
-            
             <Box
               sx={{
                 alignItems: "center",
@@ -217,7 +229,7 @@ export default function Login() {
                     helperText={formik.touched.name && formik.errors.name}
                     fullWidth
                   />
-                  <TextField
+                  {/* <TextField
                     margin="normal"
                     id="password"
                     name="password"
@@ -233,8 +245,39 @@ export default function Login() {
                       formik.touched.password && formik.errors.password
                     }
                     fullWidth
-                  />
+                  /> */}
 
+                  <TextField
+                    margin="normal"
+                    id="password"
+                    name="password"
+                    label="Password"
+                    type={showPassword ? "text" : "password"}
+                    autoComplete="off"
+                    onChange={formik.handleChange}
+                    value={formik.values.password}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                            edge="end"
+                          >
+                            {showPassword ? <Visibility /> : <VisibilityOff />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                    error={
+                      formik.touched.password && Boolean(formik.errors.password)
+                    }
+                    helperText={
+                      formik.touched.password && formik.errors.password
+                    }
+                    fullWidth
+                  />
                   <Button
                     type="submit"
                     fullWidth

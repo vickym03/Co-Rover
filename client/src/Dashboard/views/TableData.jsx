@@ -83,8 +83,6 @@ function TableData() {
       //   renderCell: renderCellExpand,
     },
 
- 
-
     // rednder
     {
       field: "answer",
@@ -136,7 +134,6 @@ function TableData() {
       //   renderCell: renderCellExpand,
     },
 
-   
     {
       field: "rawres",
       headerName: "Raw Response",
@@ -145,16 +142,16 @@ function TableData() {
 
       //   renderCell: renderCellExpand,
       renderCell: (params) => {
+
+
         if (params.value === "isDelivered") {
           // return(<div> hello false</div>)
           return (
             <div>
               <Chip
                 variant="outlined"
-                label="isDelivered"
-                sx={{ backgroundColor: "green", color: "white" }}
-
-                // icon={<ForwardToInboxOutlinedIcon />}
+                label={params.value}
+                sx={{ backgroundColor: "#6a994e", color: "white" }}
               />
             </div>
           );
@@ -163,8 +160,8 @@ function TableData() {
             <div>
               <Chip
                 variant="outlined"
-                sx={{ backgroundColor: "#EF5350 ", color: "white" }}
-                label="isFailed"
+                sx={{ backgroundColor: "#CB4335  ", color: "white" }}
+                label={params.value}
               />
             </div>
           );
@@ -173,21 +170,36 @@ function TableData() {
             <div>
               <Chip
                 variant="outlined"
-                style={{ backgroundColor: "#85C1E9 ", color: "white" }}
-
-                label="isSent"
+                style={{ backgroundColor: "#1A5276 ", color: "white" }}
+                label={params.value}
               />
             </div>
           );
-        } else {
+        } else if (params.value === "isRead") {
           return (
             <div>
               <Chip
                 variant="outlined"
-                sx={{ backgroundColor: "#2980B9", color: "white" }}
-                label="isRead"
+                sx={{ backgroundColor: "#3498DB", color: "white" }}
+                label={params.value}
               />
             </div>
+          );
+        } else if(params.value === "isClicked") {
+          return (
+            <Chip
+              variant="outlined"
+              sx={{ backgroundColor: "#A569BD", color: "white" }}
+              label={params.value}
+            />
+          );
+        }else if(params.value === "isReplied") {
+          return (
+            <Chip
+              variant="outlined"
+              sx={{ backgroundColor: "#E67E22", color: "white" }}
+              label={params.value}
+            />
           );
         }
       },
@@ -252,6 +264,38 @@ function TableData() {
       mssgtype: "media",
       usertype: "user",
       rawres: "isFailed",
+      answer: 2,
+      mssgno: 4,
+      bank: "SBI",
+      product: "Laptop",
+      level: "Beginner",
+    },
+    {
+      id: 5,
+      username: "Tom",
+      appid: 1234,
+      phoneno: 1234567890,
+      accno: 1234567,
+      mssgid: 1233,
+      mssgtype: "text",
+      usertype: "user",
+      rawres: "isClicked",
+      answer: 2,
+      mssgno: 4,
+      bank: "SBI",
+      product: "Laptop",
+      level: "Beginner",
+    },
+    {
+      id: 6,
+      username: "Jeery",
+      appid: 2345,
+      phoneno: 1234567890,
+      accno: 1234567,
+      mssgid: 1233,
+      mssgtype: "media",
+      usertype: "user",
+      rawres: "isReplied",
       answer: 2,
       mssgno: 4,
       bank: "SBI",

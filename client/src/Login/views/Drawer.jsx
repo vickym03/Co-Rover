@@ -22,8 +22,33 @@ import DashboardCustomizeOutlinedIcon from "@mui/icons-material/DashboardCustomi
 import MainDashboard from "../../Dashboard/views/MainDashboard";
 import { useNavigate } from "react-router-dom";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import { Button, Grid } from "@mui/material";
-import { SignOut } from "../../Dashboard/views/SignOut";
+import { Button, Grid, Tooltip } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { resetLogin } from "../actions";
+import PersonIcon from "@mui/icons-material/Person";
+import { CoRoverIcon, TooltipCus } from "../../Dashboard/views/Icons";
+import { makeStyles } from "@mui/styles";
+
+const useStyles = makeStyles((theme) => ({
+  tooltip: {
+    backgroundColor: "#FFFFFF",
+    color: "#F70776",
+    border: "2px solid #254B62",
+    fontSize: "0.9em",
+    fontWeight: "bold !important",
+    textAlign: "center",
+    boxSizing: "border-box",
+    padding: "5px 14px 5px 20px",
+  },
+  arrow: {
+    color: "#FFFFFF",
+    "&::before": {
+      border: "3px solid #254B62",
+    },
+  },
+}));
 
 const drawerWidth = 240;
 
@@ -94,6 +119,8 @@ const Drawer = styled(MuiDrawer, {
 
 export default function NavDrawer() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const classes = useStyles();
 
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -108,12 +135,16 @@ export default function NavDrawer() {
   const itemslist = [
     {
       text: "Dashboard",
-      icon: <DashboardCustomizeOutlinedIcon sx={{ color: "#28262b  " }} />,
+      icon: (
+        <DashboardCustomizeOutlinedIcon
+          sx={{ color: "#478e8e ", fontSize: "40px" }}
+        />
+      ),
       onclick: () => navigate("/dashboard"),
     },
     {
-      text: "Add User",
-      icon: <MailIcon sx={{ color: "#28262b  " }} />,
+      text: "Tiltle ....",
+      icon: <PersonIcon sx={{ color: "#478e8e ", fontSize: "40px" }} />,
       onclick: () => navigate("/userDetails"),
     },
     // {
@@ -122,9 +153,20 @@ export default function NavDrawer() {
     //   onclick: () => history.push("/contact")
     // }
   ];
+
+  const back = () => {
+    // setLogin(true);
+    // setDashboard(false);
+    // setOpen(false);
+    // setOpenErr(false);
+    // setOpenNotFou(false);
+    navigate("/");
+    dispatch(resetLogin());
+  };
+
   return (
     <Box sx={{ display: "flex" }}>
-      <CssBaseline />
+      {/* <CssBaseline /> */}
       <AppBar position="fixed" open={open}>
         <Toolbar sx={{ backgroundColor: "white" }}>
           <IconButton
@@ -138,29 +180,59 @@ export default function NavDrawer() {
               ...(open && { display: "none" }),
             }}
           >
-            <MenuIcon />
-          </IconButton>
-          {/* <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ color: "black" }}
-          >
-            ddd
-          </Typography> */}
-
-          <Grid sx={{paddingLeft:"5px"}}>
-         
-            <img
+            {/* <MenuIcon /> */}
+            {/* <img
               src="https://corover.plutos.one/images/corover-logo.png"
               alt="not fount"
               height="30px"
-            />
+            /> */}
+            <CoRoverIcon />
+          </IconButton>
+          <Grid container spacing={2} sx={{ color: "black" }}>
+            <Grid item xs={4}>
+              {/* <img
+                src="https://corover.plutos.one/images/corover-logo.png"
+                alt="not fount"
+                height="30px"
+              /> */}
+              Project title .....
+            </Grid>
+            <Grid item xs={4}>
+              {/* <>xs=4</> */}
+            </Grid>
+            <Grid item xs={4}>
+              {/* <Button sx={{}}> Sign Out</Button> */}
+              <IconButton
+                sx={{ color: "black", float: "right" }}
+                onClick={back}
+              >
+                <Tooltip
+                  title="Logout"
+                  placement="right-start"
+                  arrow
+                  classes={{ arrow: classes.arrow, tooltip: classes.tooltip }}
+                >
+                  <LogoutIcon sx={{ fontSize: "30px", color: "#B22222" }} />
+                </Tooltip>
+              </IconButton>
+            </Grid>
           </Grid>
         </Toolbar>
       </AppBar>
+
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
+          {/* <img
+        src="https://corover.plutos.one/images/corover-logo.png"
+        alt="not fount"
+        height="30px"
+        width="200px"
+      /> */}
+          <Grid sx={{ textAlign: "center", padding: "0px 30px 0px 0px" }}>
+            {" "}
+            <CoRoverIcon />
+          </Grid>
+
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "rtl" ? (
               <ChevronRightIcon />
@@ -174,10 +246,18 @@ export default function NavDrawer() {
           {itemslist.map((item, index) => {
             const { text, icon, onclick } = item;
             return (
-              <ListItem key={text} onClick={onclick}>
-                <ListItemIcon>{icon}</ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
+              <Tooltip
+                title={text}
+                placement="right-start"
+                arrow
+                
+                classes={{ arrow: classes.arrow, tooltip: classes.tooltip }}
+              >
+                <ListItem key={text} onClick={onclick}>
+                  <ListItemIcon>{icon}</ListItemIcon>
+                  <ListItemText primary={text} />
+                </ListItem>
+              </Tooltip>
             );
           })}
         </List>

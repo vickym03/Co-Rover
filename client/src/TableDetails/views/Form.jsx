@@ -383,19 +383,21 @@ function Form(props) {
 
       <Grid sx={{ padding: "30px" }}>
         <Typography variant="h4" sx={{ padding: "0px 0px 30px 0px" }}>
-          User Form
+          {/* User Form                                         */}
         </Typography>
         <Card sx={{ display: "flex", paddingTop: "40px" }}>
           <Box
             component="form"
             sx={{
-              "& .MuiTextField-root": { m: 3, width: "35ch" },
+              "& .MuiTextField-root": { m: 3, width: "28ch" },
             }}
-            noValidate
+            // noValidate
             autoComplete="off"
           >
             <div>
               <TextField
+              InputProps={{ sx: { borderRadius: 10 } }}
+
                 // className={classes.selectTextfiledsCustom}
                 id="username"
                 label={"User Name"}
@@ -414,6 +416,8 @@ function Form(props) {
 
               <TextField
                 // className={classes.selectTextfiledsCustom}
+                InputProps={{ sx: { borderRadius: 10 } }}
+
                 id="bankname"
                 label={"Bank Name"}
                 // disabled={update ? true : false}
@@ -433,6 +437,8 @@ function Form(props) {
                 id="bankcode"
                 label={"Bank Code"}
                 disabled={showUpdate}
+                InputProps={{ sx: { borderRadius: 10 } }}
+
                 // disabled={update ? true : false}
                 name="bankcode"
                 type="text"
@@ -448,6 +454,8 @@ function Form(props) {
                 // className={classes.selectTextfiledsCustom}
                 id="mobileno"
                 label={"Mobile Number"}
+                InputProps={{ sx: { borderRadius: 10 } }}
+
                 // disabled={update ? true : false}
                 name="mobileno"
                 type="number"
@@ -465,6 +473,8 @@ function Form(props) {
                 // className={classes.selectTextfiledsCustom}
                 id="product"
                 label={"Product"}
+                InputProps={{ sx: { borderRadius: 10 } }}
+
                 // disabled={update ? true : false}
                 name="product"
                 type="text"
@@ -478,6 +488,8 @@ function Form(props) {
               <TextField
                 select
                 margin="normal"
+                InputProps={{ sx: { borderRadius: 10 } }}
+
                 size="medium"
                 id="level"
                 label="Level"
@@ -501,6 +513,8 @@ function Form(props) {
                 margin="normal"
                 size="medium"
                 id="group"
+                InputProps={{ sx: { borderRadius: 10 } }}
+
                 label={"Group"}
                 // disabled={update ? true : false}
                 name="group"
@@ -523,6 +537,8 @@ function Form(props) {
                 margin="normal"
                 size="medium"
                 id="usertype"
+                InputProps={{ sx: { borderRadius: 10 } }}
+
                 label={"User Type"}
                 // disabled={update ? true : false}
                 name="usertype"
@@ -566,7 +582,7 @@ function Form(props) {
               </Typography>
             </Stack>
 
-            <Grid padding={{ padding: "150px 0px 100px 0px" }}>
+            <Grid padding={{ padding: "50px 0px 100px 0px" }}>
               <Grid sx={{ paddingRight: "28px " }}>
                 <Button
                   className={classes.cancelBtn}

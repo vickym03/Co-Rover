@@ -37,11 +37,9 @@ function MainPage({
   };
   return (
     <div>
-      <Stack direction="row" spacing={2}>
-        <IconButton sx={{ color: "black" }} onClick={back}>
-          <ArrowBackIcon />
-        </IconButton>
-      </Stack>
+      {/* <Stack direction="row" spacing={2}>
+        
+      </Stack> */}
       <NavDrawer />
       {/* <MainDashboard /> */}
     </div>

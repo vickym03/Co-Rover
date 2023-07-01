@@ -230,7 +230,7 @@ function TableUserData() {
             </Stack>
 
             <Typography variant="h4" sx={{ padding: "0px 0px 0px 30px " }}>
-              User Details
+              {/* User Details                                       */}
             </Typography>
             <Grid sx={{ padding: "0px 20px" }}>
               <Button

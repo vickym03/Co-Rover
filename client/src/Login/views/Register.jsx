@@ -21,11 +21,16 @@ import IconButton from "@mui/material/IconButton";
 import Collapse from "@mui/material/Collapse";
 import CloseIcon from "@mui/icons-material/Close";
 import { getRegisterRequest } from "../actions";
-import Paper from '@mui/material/Paper';
+import Paper from "@mui/material/Paper";
+import { Card } from "@mui/material";
+import InputAdornment from "@mui/material/InputAdornment";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 const theme = createTheme();
 
 export default function Register() {
+  const [showPassword, setShowPassword] = React.useState(false);
   const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
   const [openExists, setOpenExists] = React.useState(false);
@@ -37,7 +42,12 @@ export default function Register() {
   });
 
   const { registerData } = getData;
-  console.log(registerData);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
 
   const validate = yup.object().shape({
     name: yup
@@ -49,7 +59,7 @@ export default function Register() {
       .required("Enter E-mail"),
     password: yup
       .string()
-  
+
       .matches(/^\S*$/, "Enter without space")
       // .name("Error  password")
       .min(4, "Password must be greater than 4 character")
@@ -80,85 +90,204 @@ export default function Register() {
     }
   }, [registerData]);
   return (
+    // <ThemeProvider theme={theme}>
+    //   <Container component="main" maxWidth="xs">
+    //     <CssBaseline />
+    //     <Box
+    //       sx={{
+    //         // marginTop: 8,
+    //         marginTop:"16px",
+    //         display: "flex",
+    //         flexDirection: "column",
+    //         alignItems: "center",
+    //          position: "absolute",
+    //         // left: "50%",
+
+    //         //  transform: "translate(-50%, -50%)",
+    //         width: 400,
+    //       }}
+    //     >
+
+    //       <Box
+    //         sx={{
+    //           alignItems: "center",
+    //           marginTop: 8,
+    //           display: "flex",
+    //           flexDirection: "column",
+    //         }}
+    //       >
+
+    //         <Card sx={{ padding: "30px" }}>
+    //           <Box
+    //             component="form"
+    //             onSubmit={formik.handleSubmit}
+    //             noValidate
+    //             sx={{
+    //               alignItems: "center",
+    //               marginTop: 8,
+    //               display: "flex",
+    //               flexDirection: "column",
+    //             }}
+    //           >
+    //             <TextField
+    //               margin="normal"
+    //               id="name"
+    //               name="name"
+    //               label="Username"
+    //               type="text"
+    //               autoComplete="off"
+    //               onChange={formik.handleChange}
+    //               value={formik.values.name}
+    //               error={formik.touched.name && Boolean(formik.errors.name)}
+    //               helperText={formik.touched.name && formik.errors.name}
+    //               fullWidth
+    //             />
+
+    //             <TextField
+    //               margin="normal"
+    //               id="password"
+    //               name="password"
+    //               label="Password"
+    //               type={showPassword ? "text" : "password"}
+    //               autoComplete="off"
+    //               onChange={formik.handleChange}
+    //               value={formik.values.password}
+    //               InputProps={{
+    //                 endAdornment: (
+    //                   <InputAdornment position="end">
+    //                     <IconButton
+    //                       aria-label="toggle password visibility"
+    //                       onClick={handleClickShowPassword}
+    //                       onMouseDown={handleMouseDownPassword}
+    //                       edge="end"
+    //                     >
+    //                       {showPassword ? <Visibility /> : <VisibilityOff />}
+    //                     </IconButton>
+    //                   </InputAdornment>
+    //                 ),
+    //               }}
+    //               error={
+    //                 formik.touched.password && Boolean(formik.errors.password)
+    //               }
+    //               helperText={formik.touched.password && formik.errors.password}
+    //               fullWidth
+    //             />
+
+    //             <Button
+    //               type="submit"
+    //               fullWidth
+    //               variant="contained"
+    //               sx={{ mt: 3, mb: 2 }}
+    //             >
+
+    //             </Button>
+    //             <Grid container>
+    //               <Grid item xs></Grid>
+    //               <Grid item>
+
+    //               </Grid>
+    //             </Grid>
+    //           </Box>
+    //         </Card>
+    //       </Box>
+    //     </Box>
+    //   </Container>
+    // </ThemeProvider>
 
     <ThemeProvider theme={theme}>
+      <Box
+        sx={{
+          marginTop: "-16px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          position: "absolute",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          width: 400,
+          // p: 4,
+        }}
+      >
+        <Collapse in={open}>
+          <Alert
+            severity="success"
+            action={
+              <IconButton
+                aria-label="close"
+                color="inherit"
+                size="small"
+                onClick={() => {
+                  setOpen(false);
+                }}
+              >
+                <CloseIcon fontSize="inherit" />
+              </IconButton>
+            }
+            sx={{ mb: 2 }}
+          >
+            Register Success
+          </Alert>
+        </Collapse>
+
+        <Collapse in={openExists}>
+          <Alert
+            severity="info"
+            action={
+              <IconButton
+                aria-label="close"
+                color="inherit"
+                size="small"
+                onClick={() => {
+                  setOpenExists(false);
+                }}
+              >
+                <CloseIcon fontSize="inherit" />
+              </IconButton>
+            }
+            sx={{ mb: 2 }}
+          >
+            User Exists please sign up
+          </Alert>
+        </Collapse>
+      </Box>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
+
         <Box
           sx={{
+            alignItems: "center",
             marginTop: 8,
             display: "flex",
             flexDirection: "column",
-            alignItems: "center",
           }}
         >
-          <Collapse in={open}>
-            <Alert
-              severity="success"
-              action={
-                <IconButton
-                  aria-label="close"
-                  color="inherit"
-                  size="small"
-                  onClick={() => {
-                    setOpen(false);
-                  }}
-                >
-                  <CloseIcon fontSize="inherit" />
-                </IconButton>
-              }
-              sx={{ mb: 2 }}
-            >
-              Register Success
-            </Alert>
-          </Collapse>
-
-          <Collapse in={openExists}>
-            <Alert
-              severity="info"
-              action={
-                <IconButton
-                  aria-label="close"
-                  color="inherit"
-                  size="small"
-                  onClick={() => {
-                    setOpenExists(false);
-                  }}
-                >
-                  <CloseIcon fontSize="inherit" />
-                </IconButton>
-              }
-              sx={{ mb: 2 }}
-            >
-              User Exists please sign up
-            </Alert>
-          </Collapse>
           <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
             <AccountCircleIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
             Register
           </Typography>
-          <Box
-            component="form"
-            onSubmit={formik.handleSubmit}
-            noValidate
-            sx={{ mt: 1 }}
-          >
-            <TextField
-              margin="normal"
-              id="name"
-              name="name"
-              label="Username"
-              type="text"
-              autoComplete="off"
-              onChange={formik.handleChange}
-              value={formik.values.name}
-              error={formik.touched.name && Boolean(formik.errors.name)}
-              helperText={formik.touched.name && formik.errors.name}
-              fullWidth
-            />
-            <TextField
+          <Card sx={{ padding: "30px" }}>
+            <Box
+              component="form"
+              onSubmit={formik.handleSubmit}
+              noValidate
+              sx={{ mt: 5 }}
+            >
+              <TextField
+                margin="normal"
+                id="name"
+                name="name"
+                label="Username"
+                type="text"
+                autoComplete="off"
+                onChange={formik.handleChange}
+                value={formik.values.name}
+                error={formik.touched.name && Boolean(formik.errors.name)}
+                helperText={formik.touched.name && formik.errors.name}
+                fullWidth
+              />
+              {/* <TextField
               margin="normal"
               id="password"
               name="password"
@@ -167,31 +296,65 @@ export default function Register() {
               autoComplete="off"
               onChange={formik.handleChange}
               value={formik.values.password}
-              error={formik.touched.password && Boolean(formik.errors.password)}
-              helperText={formik.touched.password && formik.errors.password}
+              error={
+                formik.touched.password && Boolean(formik.errors.password)
+              }
+              helperText={
+                formik.touched.password && formik.errors.password
+              }
               fullWidth
-            />
+            /> */}
 
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Register
-            </Button>
-            <Grid container>
-              <Grid item xs></Grid>
-              <Grid item>
-                <Link href="/" variant="body2">
-                  {" Sign Up"}
-                </Link>
+              <TextField
+                margin="normal"
+                id="password"
+                name="password"
+                label="Password"
+                type={showPassword ? "text" : "password"}
+                autoComplete="off"
+                onChange={formik.handleChange}
+                value={formik.values.password}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {showPassword ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+                error={
+                  formik.touched.password && Boolean(formik.errors.password)
+                }
+                helperText={formik.touched.password && formik.errors.password}
+                fullWidth
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Register
+              </Button>
+
+              <Grid container>
+                <Grid item xs></Grid>
+                <Grid item>
+                  <Link href="/" variant="body2">
+                    {" Sign Up"}
+                  </Link>
+                </Grid>
               </Grid>
-            </Grid>
-          </Box>
+            </Box>
+          </Card>
         </Box>
       </Container>
     </ThemeProvider>
-
   );
 }

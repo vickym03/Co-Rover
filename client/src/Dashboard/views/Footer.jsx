@@ -25,11 +25,12 @@ export default function Footer() {
   return (
     <ThemeProvider theme={defaultTheme}>
       <Box
-      // sx={{
-      //   display: 'flex',
-      //   flexDirection: 'column',
-      //   minHeight: '100vh',
-      // }}
+      sx={{
+        // display: 'flex',
+      //  flexDirection: 'column',
+        // minHeight: '100vh',
+        paddingBottom:"20px"
+       }}
       >
         <CssBaseline />
 

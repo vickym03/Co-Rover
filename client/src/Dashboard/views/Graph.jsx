@@ -15,6 +15,8 @@ import {
   Pie,
   Cell,
 } from "recharts";
+import Chart from "./PieChart";
+import AreaGraph from "./AreaGraph";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#ffffff",
@@ -116,21 +118,21 @@ export default function Graph() {
       </Typography> */}
       <Box sx={{ flexGrow: 1 }}>
         <Grid item xs={12}>
-          <Grid container spacing={5}>
-            <Grid item xs={8}>
+          <Grid container spacing={1}>
+            <Grid item xs={7.5}>
               <Item>
                 {/* <Typography variant="h6" sx={{ color: "black" }}>
                   Area Chart
                 </Typography> */}
-                <AreaChart
-                  width={900}
+                {/* <AreaChart
+                  width={800}
                   height={400}
                   data={lineGraphData}
                   margin={{
                     top: 30,
                     right: 30,
                     left: 0,
-                    bottom: 0,
+                    bottom: 10,
                   }}
                 >
                   <CartesianGrid strokeDasharray="3 3" />
@@ -138,35 +140,57 @@ export default function Graph() {
                   <YAxis />
                   <TooltipAreaChart />
                   <Area
-                    type="monotone"
+                    type="Send"
                     dataKey="uv"
                     stackId="1"
                     stroke="#8884d8"
                     fill="#8884d8"
                   />
                   <Area
-                    type="monotone"
+                    type="Delivered"
                     dataKey="pv"
                     stackId="1"
                     stroke="#82ca9d"
                     fill="#82ca9d"
                   />
                   <Area
-                    type="monotone"
+                    type="Read"
                     dataKey="amt"
                     stackId="1"
                     stroke="#ffc658"
                     fill="#ffc658"
                   />
-                </AreaChart>
+                  <Area
+                    type="Clicked"
+                    dataKey="uv"
+                    stackId="1"
+                    stroke="#8884d8"
+                    fill="#8884d8"
+                  />
+                  <Area
+                    type="Replied"
+                    dataKey="pv"
+                    stackId="1"
+                    stroke="#82ca9d"
+                    fill="#82ca9d"
+                  />
+                  <Area
+                    type="Failed"
+                    dataKey="amt"
+                    stackId="1"
+                    stroke="#ffc658"
+                    fill="#ffc658"
+                  />
+                </AreaChart> */}
+                <AreaGraph/>
               </Item>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={4.5}>
               <Item>
                 {/* <Typography variant="h6" sx={{ color: "black" }}>
                   Pie Graph
                 </Typography> */}
-                <PieChart width={400} height={400}>
+                {/* <PieChart width={400} height={400}>
                   <Pie
                     data={data}
                     cx={200}
@@ -186,7 +210,9 @@ export default function Graph() {
                       />
                     ))}
                   </Pie>
-                </PieChart>
+                </PieChart> */}
+
+                <Chart/>
               </Item>
             </Grid>
           </Grid>

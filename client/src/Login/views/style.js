@@ -1,67 +1,26 @@
-
-
-
 import { makeStyles } from '@mui/styles';
-const drawerWidth = 240;
 
-export const useStyles = makeStyles(theme => ({
-    root: {
-        display: 'flex',
+export const useStyles = makeStyles(theme=>({
+    
+  tooltip: {
+    backgroundColor: "#FFFFFF",
+    color: "#9F2B68",
+    border: "2px solid #9F2B68",
+    fontSize: "0.9em",
+    fontWeight: "bold !important",
+    textAlign: "center",
+    boxSizing: "border-box",
+    padding: "5px 14px 5px 20px",
+  },
+  arrow: {
+    color: "#FFFFFF",
+    "&::before": {
+      border: "2px solid #9F2B68",
     },
-    appBar: {
-        zIndex: theme.zIndex.drawer + 1,
-        transition: theme.transitions.create(['width', 'margin'], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
-    },
-    appBarShift: {
-        marginLeft: drawerWidth,
-        width: `calc(100% - ${drawerWidth}px)`,
-        transition: theme.transitions.create(['width', 'margin'], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
-    },
-    menuButton: {
-        marginLeft: 12,
-        marginRight: 36,
-    },
-    hide: {
-        display: 'none',
-    },
-    drawer: {
-        width: drawerWidth,
-        flexShrink: 0,
-        whiteSpace: 'nowrap',
-    },
-    drawerOpen: {
-        width: drawerWidth,
-        transition: theme.transitions.create('width', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
-    },
-    drawerClose: {
-        transition: theme.transitions.create('width', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
-        overflowX: 'hidden',
-        width: theme.spacing.unit * 7 + 1,
-        [theme.breakpoints.up('sm')]: {
-            width: theme.spacing.unit * 9 + 1,
-        },
-    },
-    toolbar: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'flex-end',
-        padding: '0 8px',
-        ...theme.mixins.toolbar,
-    },
-    content: {
-        flexGrow: 1,
-        padding: theme.spacing.unit * 3,
-    },
+  },
+
+hh:{
+  backgroundColor:"red"
+}
+   
 }))
