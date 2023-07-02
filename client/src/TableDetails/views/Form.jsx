@@ -41,7 +41,7 @@ function Form(props) {
 
   const getData = useSelector((state) => {
     return {
-      loginData: state.usersReducer.login,
+      // loginData: state.usersReducer.login,
       adduser: state.addUsersReducer.addUser,
       userData: state.addUsersReducer.userData,
       adduserStatus: state.addUsersReducer.adduserStatus,
@@ -50,7 +50,11 @@ function Form(props) {
 
   const { loginData, adduser, userData, adduserStatus } = getData;
 
-  const clientId = loginData["data"]["clientId"];
+  const loginparse = localStorage.getItem("login");
+  const login = JSON.parse(loginparse);
+
+  const clientId = login !== null && login["data"]["clientId"];
+  
 
   // const {
   //   id,
@@ -396,8 +400,7 @@ function Form(props) {
           >
             <div>
               <TextField
-              InputProps={{ sx: { borderRadius: 10 } }}
-
+                InputProps={{ sx: { borderRadius: 10 } }}
                 // className={classes.selectTextfiledsCustom}
                 id="username"
                 label={"User Name"}
@@ -417,7 +420,6 @@ function Form(props) {
               <TextField
                 // className={classes.selectTextfiledsCustom}
                 InputProps={{ sx: { borderRadius: 10 } }}
-
                 id="bankname"
                 label={"Bank Name"}
                 // disabled={update ? true : false}
@@ -438,7 +440,6 @@ function Form(props) {
                 label={"Bank Code"}
                 disabled={showUpdate}
                 InputProps={{ sx: { borderRadius: 10 } }}
-
                 // disabled={update ? true : false}
                 name="bankcode"
                 type="text"
@@ -455,7 +456,6 @@ function Form(props) {
                 id="mobileno"
                 label={"Mobile Number"}
                 InputProps={{ sx: { borderRadius: 10 } }}
-
                 // disabled={update ? true : false}
                 name="mobileno"
                 type="number"
@@ -474,7 +474,6 @@ function Form(props) {
                 id="product"
                 label={"Product"}
                 InputProps={{ sx: { borderRadius: 10 } }}
-
                 // disabled={update ? true : false}
                 name="product"
                 type="text"
@@ -489,7 +488,6 @@ function Form(props) {
                 select
                 margin="normal"
                 InputProps={{ sx: { borderRadius: 10 } }}
-
                 size="medium"
                 id="level"
                 label="Level"
@@ -514,7 +512,6 @@ function Form(props) {
                 size="medium"
                 id="group"
                 InputProps={{ sx: { borderRadius: 10 } }}
-
                 label={"Group"}
                 // disabled={update ? true : false}
                 name="group"
@@ -538,7 +535,6 @@ function Form(props) {
                 size="medium"
                 id="usertype"
                 InputProps={{ sx: { borderRadius: 10 } }}
-
                 label={"User Type"}
                 // disabled={update ? true : false}
                 name="usertype"

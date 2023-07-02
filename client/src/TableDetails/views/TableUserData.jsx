@@ -31,7 +31,6 @@ function TableUserData() {
 
   const [formview, setFormview] = useState(false);
   const [tableview, setTableview] = useState(true);
- 
 
   const classes = useStyles();
   const navigate = useNavigate();
@@ -39,14 +38,17 @@ function TableUserData() {
 
   const getData = useSelector((state) => {
     return {
-      loginData: state.usersReducer.login,
+      // loginData: state.usersReducer.login,
       adduser: state.addUsersReducer.addUser,
       userData: state.addUsersReducer.userData,
     };
   });
-  const { loginData, adduser, userData } = getData;
+  const { adduser, userData } = getData;
 
-  const clientId = loginData["data"]["clientId"];
+  const loginparse = localStorage.getItem("login");
+  const login = JSON.parse(loginparse);
+
+  const clientId = login !== null && login["data"]["clientId"];
 
   // console.log("adduser adduser adduser", adduser);
   const handledashboardView = () => {
@@ -138,7 +140,6 @@ function TableUserData() {
       flex: 1,
       headerClassName: "super-app-theme--header",
       renderCell: (params) => {
-       
         if (params.value === false) {
           // return(<div> hello false</div>)
           return (
@@ -151,7 +152,7 @@ function TableUserData() {
               />
             </div>
           );
-         } else {
+        } else {
           // return(<div> hello true</div>)
 
           return (
@@ -165,10 +166,9 @@ function TableUserData() {
             </div>
           );
         }
-       }
+      },
     },
   ];
- 
 
   const rows =
     userData &&
@@ -215,11 +215,8 @@ function TableUserData() {
     dispatch(getUsersRequest(clientId));
   }, [formview, tableview]);
 
- 
-
   return (
     <>
-     
       {tableview && (
         <div>
           <Grid>
@@ -303,7 +300,7 @@ function TableUserData() {
               />
             </Box>
           </Grid>
-       <Footer/>
+          <Footer />
         </div>
       )}
 

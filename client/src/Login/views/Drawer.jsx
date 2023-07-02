@@ -162,6 +162,7 @@ export default function NavDrawer() {
     // setOpenNotFou(false);
     navigate("/");
     dispatch(resetLogin());
+    localStorage.setItem("login", null)
   };
 
   return (
