@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
+import PropTypes from "prop-types";
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import { Button, Grid, Typography } from "@mui/material";
@@ -30,6 +31,8 @@ function Form(props) {
     setSelectedRow,
     setShowUpdate,
   } = props;
+
+  console.log("setFormview", typeof setFormview);
   const dispatch = useDispatch();
   const classes = useStyles();
 
@@ -54,7 +57,6 @@ function Form(props) {
   const login = JSON.parse(loginparse);
 
   const clientId = login !== null && login["data"]["clientId"];
-  
 
   // const {
   //   id,
@@ -607,3 +609,12 @@ function Form(props) {
 }
 
 export default Form;
+
+Form.prototypes = {
+  setFormview: PropTypes.function,
+  setTableview: PropTypes.function,
+  selectedRow: PropTypes.function,
+  showUpdate: PropTypes.function,
+  setSelectedRow: PropTypes.function,
+  setShowUpdate: PropTypes.function,
+};

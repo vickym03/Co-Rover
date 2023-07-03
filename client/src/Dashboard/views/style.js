@@ -12,7 +12,7 @@ export const useStyles = makeStyles((theme) => ({
   },
 
   textColor: {
-    color: "black !important",
+    color: "#000000 !important",
   },
   iconsize: {
     fontSize: "15px !important",
@@ -56,7 +56,7 @@ export const useStyles = makeStyles((theme) => ({
     background: "#BB8FCE ",
     // "radial-gradient(circle, rgba(244,246,247,1) 0%, rgba(29,233,182,0.5439425770308124) 100%)",
     padding: "5px",
-    color: "black",
+    color: "#000000",
   },
   replied: {
     alignItems: "left",

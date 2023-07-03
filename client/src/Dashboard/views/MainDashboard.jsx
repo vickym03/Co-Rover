@@ -52,8 +52,8 @@ function MainDashboard() {
   };
 
   return (
-    <Grid >
-          <NavTabs/>
+    <Grid>
+      <NavTabs />
       <Box sx={{ flexGrow: 1 }}>
         {/* <Typography variant="h5" sx={{ padding: "0px 0px 10px 0px" }}>
           Hello,
@@ -235,11 +235,9 @@ function MainDashboard() {
         >
           Add User
         </Button> */}
-    
         </Grid>
         <Graph />
         <TableData />
-        <Footer />
       </Box>
     </Grid>
   );

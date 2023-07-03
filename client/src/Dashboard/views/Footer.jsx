@@ -5,17 +5,26 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
+import Paper from "@mui/material/Paper";
+import Grid from "@mui/material/Grid";
+import { styled } from "@mui/material/styles";
 
 function Copyright() {
   return (
-    <Typography variant="body2" color="text.secondary">
-      {"Copyright © "}
-      <Link color="inherit" href="https://corover.ai/">
-        Co Rover ai
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
+    <center>
+      <Typography variant="body2" color="	#808080">
+        {"Copyright © "}
+        <Link
+          sx={{ textDecoration: "none" }}
+          color="#808080"
+          href="https://corover.ai/"
+        >
+          Co Rover ai
+        </Link>{" "}
+        {new Date().getFullYear()}
+        {"."}
+      </Typography>
+    </center>
   );
 }
 
@@ -25,28 +34,21 @@ export default function Footer() {
   return (
     <ThemeProvider theme={defaultTheme}>
       <Box
-      sx={{
-        // display: 'flex',
-      //  flexDirection: 'column',
-        // minHeight: '100vh',
-        paddingBottom:"20px"
-       }}
+        component="footer"
+        sx={{
+          bottom: 0,
+          position: "fixed",
+          width: "100%",
+        }}
       >
-        <CssBaseline />
-
-        <Box
-          component="footer"
-          sx={{
-            textAlign: "center",
-            paddingTop: "20px",
-          }}
-        >
-          <Container maxWidth="sm">
-            <Copyright />
-            <Typography variant="body1"></Typography>
-          </Container>
-        </Box>
+        {/* <Item> */}
+        <Paper elevation={6} sx={{ paddingBottom: "10px", paddingTop: "10px" }}>
+          <Copyright />
+        </Paper>
+        {/* </Item> */}
+        <Typography variant="body1"></Typography>
       </Box>
+      {/* </Box>  */}
     </ThemeProvider>
   );
 }

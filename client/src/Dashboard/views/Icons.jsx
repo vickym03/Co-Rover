@@ -8,7 +8,6 @@ import TouchAppIcon from "@mui/icons-material/TouchApp";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import StreetviewIcon from "@mui/icons-material/Streetview";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
-import { Tooltip } from "@mui/material";
 
 export const sentIcon = <ForwardToInboxOutlinedIcon sx={{ color: "white" }} />;
 
@@ -30,7 +29,6 @@ export const creditIcon = <CreditCardIcon sx={{ color: "white" }} />;
 
 export const viewIcon = <StreetviewIcon sx={{ color: "white" }} />;
 
-
 export const CoRoverIcon = () => {
   return (
     <img
@@ -41,5 +39,3 @@ export const CoRoverIcon = () => {
     />
   );
 };
-
-

@@ -13,6 +13,7 @@ import { Box, Button, Chip, Grid } from "@mui/material";
 import { GridToolbar } from "@mui/x-data-grid";
 import { sentIcon, readIcon } from "./Icons";
 import ForwardToInboxOutlinedIcon from "@mui/icons-material/ForwardToInboxOutlined";
+import Footer from "./Footer";
 
 function TableData() {
   const [pageSize, setPageSize] = React.useState(10);
@@ -389,6 +390,7 @@ function TableData() {
           pagination
           {...rows}
         />
+       
         {/* </Grid> */}
       </Box>
     </Grid>

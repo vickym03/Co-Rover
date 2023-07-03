@@ -1,5 +1,3 @@
-
-
 import * as React from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -18,31 +16,26 @@ export default function NavTabs() {
   };
 
   return (
-    
-
     <Box sx={{ width: "100%", paddingBottom: "20px" }}>
       <Tabs
         value={value}
         onChange={handleChange}
-        textColor="black"
+        textColor="#000000"
         indicatorColor="none"
-        TabIndicatorProps={{
-          style: {
-            backgroundColor: "",
-            color: "red",
-            height: 3,
-            margin: "7px",
-          },
-        }}
-        // aria-label="secondary tabs example"
+        // TabIndicatorProps={{
+        //   style: {
+        //     backgroundColor: "",
+        //     color: "red",
+        //     height: 3,
+        //     margin: "7px",
+        //   },
+        // }}
       >
         <Tab className={classes.tab} label="Dashboard" value="/dashboard" />
         <Tab label="title..." value="/userDetails" className={classes.tab} />
 
+        <Tab label="title 2" value="" className={classes.tab} />
         {/* <Tab label="User" value="" className={classes.tab} /> */}
-        {/* <Tab label="User" value="" className={classes.tab} /> */}
-
-        
       </Tabs>
     </Box>
   );

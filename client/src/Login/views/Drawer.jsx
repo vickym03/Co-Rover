@@ -30,7 +30,7 @@ import { resetLogin } from "../actions";
 import PersonIcon from "@mui/icons-material/Person";
 import { CoRoverIcon, TooltipCus } from "../../Dashboard/views/Icons";
 import { makeStyles } from "@mui/styles";
-
+import Footer from "../../Dashboard/views/Footer";
 const useStyles = makeStyles((theme) => ({
   tooltip: {
     backgroundColor: "#FFFFFF",
@@ -162,12 +162,12 @@ export default function NavDrawer() {
     // setOpenNotFou(false);
     navigate("/");
     dispatch(resetLogin());
-    localStorage.setItem("login", null)
+    localStorage.setItem("login", null);
   };
 
   return (
     <Box sx={{ display: "flex" }}>
-      {/* <CssBaseline /> */}
+      <CssBaseline />
       <AppBar position="fixed" open={open}>
         <Toolbar sx={{ backgroundColor: "white" }}>
           <IconButton
@@ -177,39 +177,25 @@ export default function NavDrawer() {
             edge="end"
             sx={{
               marginRight: 5,
-              color: "black",
+              color: "#000000",
               ...(open && { display: "none" }),
             }}
           >
-            {/* <MenuIcon /> */}
-            {/* <img
-              src="https://corover.plutos.one/images/corover-logo.png"
-              alt="not fount"
-              height="30px"
-            /> */}
             <CoRoverIcon />
           </IconButton>
-          <Grid container spacing={2} sx={{ color: "black" }}>
+          <Grid container spacing={2} sx={{ color: "#000000" }}>
             <Grid item xs={4}>
-              {/* <img
-                src="https://corover.plutos.one/images/corover-logo.png"
-                alt="not fount"
-                height="30px"
-              /> */}
               Project title .....
             </Grid>
+            <Grid item xs={4}></Grid>
             <Grid item xs={4}>
-              {/* <>xs=4</> */}
-            </Grid>
-            <Grid item xs={4}>
-              {/* <Button sx={{}}> Sign Out</Button> */}
               <IconButton
-                sx={{ color: "black", float: "right" }}
+                sx={{ color: "#000000", float: "right" }}
                 onClick={back}
               >
                 <Tooltip
                   title="Logout"
-                  placement="right-start"
+                  placement="top"
                   arrow
                   classes={{ arrow: classes.arrow, tooltip: classes.tooltip }}
                 >
@@ -219,18 +205,12 @@ export default function NavDrawer() {
             </Grid>
           </Grid>
         </Toolbar>
+        <Footer />
       </AppBar>
 
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
-          {/* <img
-        src="https://corover.plutos.one/images/corover-logo.png"
-        alt="not fount"
-        height="30px"
-        width="200px"
-      /> */}
           <Grid sx={{ textAlign: "center", padding: "0px 30px 0px 0px" }}>
-            {" "}
             <CoRoverIcon />
           </Grid>
 
@@ -247,11 +227,10 @@ export default function NavDrawer() {
           {itemslist.map((item, index) => {
             const { text, icon, onclick } = item;
             return (
-              <Tooltip
+              <Tooltip key={index}
                 title={text}
                 placement="right-start"
                 arrow
-                
                 classes={{ arrow: classes.arrow, tooltip: classes.tooltip }}
               >
                 <ListItem key={text} onClick={onclick}>
@@ -265,7 +244,6 @@ export default function NavDrawer() {
       </Drawer>
       <Box sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
-
         <MainDashboard />
       </Box>
     </Box>
