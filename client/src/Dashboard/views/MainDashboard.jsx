@@ -53,8 +53,12 @@ function MainDashboard() {
 
   return (
     <Grid>
-      <NavTabs />
       <Box sx={{ flexGrow: 1 }}>
+        <Grid sx={{ paddingBottom: "20px" }}>
+        
+          <NavTabs />
+        </Grid>
+
         {/* <Typography variant="h5" sx={{ padding: "0px 0px 10px 0px" }}>
           Hello,
         </Typography> */}

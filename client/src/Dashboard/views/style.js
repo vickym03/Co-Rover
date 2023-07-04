@@ -97,16 +97,16 @@ export const useStyles = makeStyles((theme) => ({
     height: "35px",
   },
   tab: {
-    background: "#ECF0F1",
-    color:"#1A5276",
+    // background: "#ECF0F1",
+    color:"gray !important",
     fontWeight:"bold !important",
     borderRadius: "200px !important",
     // hight: "30px !important",
     marginLeft:"5px",
     "&.Mui-selected": {
       // background: "#FF5722",
-      backgroundColor:"#5DADE2",
-          color:"white",
+      // backgroundColor:"#5DADE2",
+          color:"black !important",
 
     },
   },

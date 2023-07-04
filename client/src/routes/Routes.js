@@ -26,14 +26,19 @@ function Router() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route exact path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="*" element={<Navigate to="/login" replace />} />
+          {login == null  && (
+            <>
+              <Route exact path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="*" element={<Navigate to="/login" replace />} />
+            </>
+          )}
 
           {login !== null && login.login && (
             <>
               <Route path="/dashboard" element={<MainPage />} />
               <Route path="/userDetails" element={<TableUserData />} />
+              <Route path="*" element={<Navigate to="/dashboard" replace />} />
             </>
           )}
         </Routes>

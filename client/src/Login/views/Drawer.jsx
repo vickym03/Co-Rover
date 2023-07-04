@@ -33,19 +33,19 @@ import { makeStyles } from "@mui/styles";
 import Footer from "../../Dashboard/views/Footer";
 const useStyles = makeStyles((theme) => ({
   tooltip: {
-    backgroundColor: "#FFFFFF",
-    color: "#F70776",
+    backgroundColor: "#FFFFFF  !important",
+    color: "#F70776 !important",
     border: "2px solid #254B62",
-    fontSize: "0.9em",
+    fontSize: "0.9em !important",
     fontWeight: "bold !important",
-    textAlign: "center",
-    boxSizing: "border-box",
-    padding: "5px 14px 5px 20px",
+    textAlign: "center !important",
+    boxSizing: "border-box !important",
+    padding: "5px 14px 5px 20px !important",
   },
   arrow: {
-    color: "#FFFFFF",
+    color: "#FFFFFF !important",
     "&::before": {
-      border: "3px solid #254B62",
+      border: "3px solid #254B62 !important",
     },
   },
 }));
