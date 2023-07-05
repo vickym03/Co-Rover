@@ -2,9 +2,8 @@ const express = require("express");
 const UserModel = require("../model/UserModel");
 const userRouter = express.Router();
 const mongoose = require("mongoose");
-const autoIncrement = require("mongoose-auto-increment");
 const moment = require("moment");
-
+const GraphDashModel = require("../model/GraphDashModel");
 /*
 
 * url:http://localhost:5000/user/addUser
@@ -198,17 +197,51 @@ userRouter.post("/viewUser", function (request, response) {
             status: 200,
           },
         });
-      } else {
-        response.status(404).send({
-          message: "User  data not found",
-          data: [],
-        });
       }
     })
     .catch((error) => {
       console.log("error data  failed to fetch", error);
       response.status(404).send({
         message: "User  data  failed to fetch ",
+        data: 0,
+      });
+    });
+});
+
+/*
+ * url:http://localhost:5000/user/graphDash
+ * method: POST
+ * body : {
+ *            "date":"05-07-2023"
+ *       }
+ */
+
+userRouter.post("/graphDash", function (request, response) {
+  console.log("resp", request.body.date);
+  GraphDashModel.findOne({ date: request.body.date })
+    .then((data) => {
+      if (data && data !== undefined) {
+        response.status(200).send({
+          data: {
+            message: "Graph data fetched successfully",
+            data: data,
+            status: 200,
+          },
+        });
+      } else {
+        response.status(200).send({
+          data: {
+            message: "Graph data fetched successfully",
+            data: 0,
+            status: 200,
+          },
+        });
+      }
+    })
+    .catch((error) => {
+      console.log("error Graph  data  failed", error);
+      response.status(404).send({
+        message: "Graph  data  failed to fetch ",
         data: 0,
       });
     });

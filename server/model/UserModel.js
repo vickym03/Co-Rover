@@ -60,20 +60,4 @@ const UserModel = new mongoose.Schema({
 
 });
 
-
-
-// {
-//     "username": "rain",
-//     "level": 155,
-//     "product": "pee",
-//     "group": 200,
-//     "bankname": "SeeeeBI",
-//     "bankcode": "12Edssss",
-//     "mobileno": 1234567890,
-//     "usertype": 88,
-//     "active": true
-//   }
-
-
-
 module.exports = mongoose.model.User || mongoose.model("User", UserModel);

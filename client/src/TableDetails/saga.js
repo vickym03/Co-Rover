@@ -1,7 +1,7 @@
 
 import { call, put, takeLatest } from "redux-saga/effects";
-import { ADD_USERS_REQUEST, addUserSuccess, addUserFailed, GET_USERS_REQUEST, getUsersSuccess, getUsersFailed } from "../actions";
-import { UserApi } from "../../core/UserApi";
+import { ADD_USERS_REQUEST, addUserSuccess, addUserFailed, GET_USERS_REQUEST, getUsersSuccess, getUsersFailed } from "./actions";
+import { UserApi } from "../core/UserApi";
 
 function* addUsers(action) {
   const { payload, error } = yield call(UserApi.addUserApi, action)

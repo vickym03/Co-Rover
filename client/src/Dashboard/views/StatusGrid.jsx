@@ -7,8 +7,23 @@ import {
   SvgIcon,
   Typography,
 } from "@mui/material";
+
+import { useDispatch ,useSelector} from "react-redux";
 export const StatusGrid = (props) => {
   const { count, value, bgcolor, icon } = props;
+
+
+const getState =useSelector((state)=>{
+  return{
+    dashboardData: state.dashboardReducers.dashboardData,
+
+  }
+})
+
+const { dashboardData } = getState;
+
+const { dashboard } =  dashboardData;
+
 
   return (
     <Card>

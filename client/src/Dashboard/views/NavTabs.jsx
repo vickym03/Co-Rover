@@ -17,32 +17,60 @@ import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
+import { dashboardRequest } from "../actions";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function NavTabs() {
   const [value, setValue] = React.useState("/dashboard");
-
+  const [selectedDate, setSelectedDate] = React.useState();
+  const [selectedDateStr, setSelectedDateStr] = React.useState(
+    moment().format("DD-MM-yyyy").toString()
+  );
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const classes = useStyles();
 
-  const handleChange = (event, newValue) => {
+  /*********************************Redux state******************************************/
+
+  const getState = useSelector((state) => {
+    return {
+      dashboardData: state.dashboardReducers.dashboardData,
+    };
+  });
+
+
+  // tabs change
+  const handleChangeNavigation = (event, newValue) => {
     setValue(newValue);
     navigate(newValue);
   };
 
-  const [selectedDate, setSelectedDate] = React.useState();
-  // const [access, setAccess] = React.useState(true);
-
+  //date selection
   const handleDateChange = (date) => {
-    console.log("date", moment(date).format("DD-MM-yyyy"));
+    // console.log("date", moment(date).format("DD-MM-yyyy").toString());
     setSelectedDate(date);
+    const DateStr = moment(date).format("DD-MM-yyyy").toString();
+    setSelectedDateStr(DateStr);
+    dispatch(dashboardRequest(selectedDateStr));
   };
+
+  /*********************************Life Cycle******************************************/
+
+  React.useEffect(() => {
+    dispatch(dashboardRequest(selectedDateStr));
+  }, [selectedDate]);
+
   return (
     <div>
       <Grid xs={12}>
         <Grid container spacing={1}>
           <Grid xs={9}>
             <Box sx={{ width: "100%", paddingBottom: "15px" }}>
-              <Tabs value={value} onChange={handleChange} textColor="#000000">
+              <Tabs
+                value={value}
+                onChange={handleChangeNavigation}
+                textColor="#000000"
+              >
                 <Tab
                   label="Dashboard"
                   value="/dashboard"

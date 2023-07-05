@@ -39,14 +39,18 @@ function MainDashboard() {
   const navigate = useNavigate();
 
   const [tableView, setTableView] = useState(false);
-  const getData = useSelector((state) => {
+
+  const getState = useSelector((state) => {
     return {
       loginData: state.usersReducer.login,
+      dashboardData: state.dashboardReducers.dashboardData,
     };
   });
 
-  const { loginData } = getData;
-  // const username = loginData !== undefined && loginData.data.name;
+  const { dashboardData } = getState;
+
+  const { dashboard } = dashboardData;
+
   const handleFormView = () => {
     navigate("/userDetails");
   };
@@ -55,7 +59,6 @@ function MainDashboard() {
     <Grid>
       <Box sx={{ flexGrow: 1 }}>
         <Grid sx={{ paddingBottom: "20px" }}>
-        
           <NavTabs />
         </Grid>
 
@@ -92,7 +95,7 @@ function MainDashboard() {
               </Grid> */}
                 <StatusGrid
                   value="Audience"
-                  count={12344}
+                  count={dashboard !== undefined && dashboard.Audience}
                   bgcolor="#f25c54"
                   icon={viewIcon}
                 />
@@ -108,7 +111,12 @@ function MainDashboard() {
                 </Typography> */}
                   <StatusGrid
                     value="Total Credit Usage"
-                    count={<span>&#8377; 1234</span>}
+                    count={
+                      <span>
+                        &#8377;{" "}
+                        {dashboard !== undefined && dashboard.TotalCreditUsage}
+                      </span>
+                    }
                     bgcolor="#a6836f"
                     icon={creditIcon}
                   />
@@ -133,7 +141,7 @@ function MainDashboard() {
                   </Typography>*/}
                     <StatusGrid
                       value="Send"
-                      count={10}
+                      count={dashboard !== undefined && dashboard.Send}
                       bgcolor="#1A5276"
                       icon={sentIcon}
                     />
@@ -152,7 +160,7 @@ function MainDashboard() {
                   </Typography> */}
                     <StatusGrid
                       value="Delivered"
-                      count={6}
+                      count={dashboard !== undefined && dashboard.Delivered}
                       bgcolor="#6a994e"
                       icon={deliveredIcon}
                     />
@@ -169,7 +177,7 @@ function MainDashboard() {
                   </Typography> */}
                     <StatusGrid
                       value="Read"
-                      count={4}
+                      count={dashboard !== undefined && dashboard.Read}
                       bgcolor="#3498DB"
                       icon={readIcon}
                     />
@@ -186,7 +194,7 @@ function MainDashboard() {
                   </Typography> */}
                     <StatusGrid
                       value="Clicked"
-                      count={5}
+                      count={dashboard !== undefined && dashboard.Clicked}
                       bgcolor="#A569BD"
                       icon={clickedIcon}
                     />
@@ -203,7 +211,7 @@ function MainDashboard() {
                   </Typography> */}
                     <StatusGrid
                       value="Replied"
-                      count={7}
+                      count={dashboard !== undefined && dashboard.Replied}
                       bgcolor="#E67E22"
                       icon={replayedIcon}
                     />
@@ -220,7 +228,7 @@ function MainDashboard() {
                   </Typography> */}
                     <StatusGrid
                       value="Failed"
-                      count={8}
+                      count={dashboard !== undefined && dashboard.Failed}
                       bgcolor="#CB4335 "
                       icon={failedIcon}
                     />
