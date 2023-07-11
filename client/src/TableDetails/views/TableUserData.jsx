@@ -45,12 +45,11 @@ function TableUserData() {
   });
   const { adduser, userData } = getData;
 
-  const loginparse = localStorage.getItem("login");
+  const loginparse = sessionStorage.getItem("login");
   const login = JSON.parse(loginparse);
 
   const clientId = login !== null && login["data"]["clientId"];
 
-  // console.log("adduser adduser adduser", adduser);
   const handledashboardView = () => {
     navigate("/dashboard");
   };
@@ -63,7 +62,7 @@ function TableUserData() {
 
   const columnData = [
     {
-      field: "_id",
+      field: "id",
       headerName: "#",
       // flex:1,
       width: 80,
@@ -169,14 +168,14 @@ function TableUserData() {
       },
     },
   ];
-
+  console.log("userData", userData);
   const rows =
     userData &&
     userData !== undefined &&
     userData.length > 0 &&
     userData.map((data, index) => {
       return {
-        _id: index + 1,
+        id: index + 1,
         UserName: data.username,
         Level: data.level,
         Product: data.product,
@@ -187,7 +186,7 @@ function TableUserData() {
         UserType: data.usertype,
         Active: data.active,
         clientId: data.clientId,
-        id: data.id,
+        slno: data.id,
       };
     });
 
@@ -227,7 +226,7 @@ function TableUserData() {
             </Stack>
 
             <Typography variant="h4" sx={{ padding: "0px 0px 0px 30px " }}>
-              {/* User Details                                       */}
+              Table
             </Typography>
             <Grid sx={{ padding: "0px 20px" }}>
               <Button
@@ -245,7 +244,8 @@ function TableUserData() {
                 height: 500,
                 width: "100%",
                 "& .super-app-theme--header": {
-                  backgroundColor: "#E5E7E9 ",
+                  backgroundColor: "#2F6D80",
+                  color: "white",
                   fontWeight: "bold",
                 },
               }}

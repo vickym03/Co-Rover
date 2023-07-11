@@ -332,11 +332,11 @@ function TableData() {
       <Box
         sx={{
           height: 500,
-
-          width: "100%",
-          "& .super-app-theme--header": {
-            backgroundColor: "#E5E7E9 ",
-            fontWeight: "bold",
+                width: "100%",
+                "& .super-app-theme--header": {
+                  backgroundColor: "#2F6D80",
+                  color: "white",
+                  fontWeight: "bold",
           },
         }}
       >

@@ -87,6 +87,7 @@ export default function NavTabs() {
               </Tabs>
             </Box>
           </Grid>
+          
           <Grid xs={3}>
             <Box>
               <FormControl
@@ -103,8 +104,8 @@ export default function NavTabs() {
                     inputVariant="outlined"
                     id="date-picker-dialog"
                     label="Select Date"
-                    format="dd/MM/yyyy"
-                    placeholder="dd/mm/yyyy"
+                    format="dd-MM-yyyy"
+                    placeholder="DD-MM-YYYY"
                     clearable
                     value={selectedDate}
                     onChange={handleDateChange}

@@ -24,6 +24,7 @@ import { Card } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import Footer from "../../Dashboard/views/Footer";
 
 const theme = createTheme();
 
@@ -50,7 +51,7 @@ export default function Login() {
   const validate = yup.object().shape({
     name: yup
       .string()
-      .matches(/^\S*$/, "Enter without space")
+      // .matches(/^\S*$/, "Enter without space")
       .min(4, "name must be greater than 4 character")
       .max(100, "name must be lesser than 100 character")
       .required("Enter username"),
@@ -203,10 +204,10 @@ export default function Login() {
                 flexDirection: "column",
               }}
             >
-              <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+              <Avatar sx={{ m:1,bgcolor: "secondary.main" }}>
                 <LockOutlinedIcon />
               </Avatar>
-              <Typography component="h1" variant="h5">
+              <Typography component="h1" variant="h5" sx={{mb:2}}>
                 Sign in
               </Typography>
               <Card sx={{ padding: "30px" }}>
@@ -293,12 +294,19 @@ export default function Login() {
                       <Link href="/register" variant="body2">
                         {"Don't have an account? Sign Up"}
                       </Link>
+                     
                     </Grid>
+                
                   </Grid>
+                 
                 </Box>
+                
               </Card>
+            
             </Box>
+            {/* <Footer/> */}
           </Container>
+        
         </ThemeProvider>
       )}
 

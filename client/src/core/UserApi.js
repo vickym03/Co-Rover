@@ -8,7 +8,7 @@ const loginApi = (action) => {
   };
   // console.log("body", body)
   return api
-    ._post(url, body)
+    .Post(url, body)
     .then((response) => {
       console.log(response);
       const payload = response;
@@ -32,7 +32,49 @@ const registerApi = (action) => {
     password: action.password,
   };
   return api
-    ._post(url, body)
+    .Post(url, body)
+    .then((response) => {
+      const payload = response.data;
+      return {
+        payload,
+      };
+    })
+    .catch((error) => {
+      return {
+        error,
+      };
+    });
+};
+
+const refreshTokenApi = (action) => {
+  console.log("refreshTokenApi", action);
+  const url = `${process.env.REACT_APP_API_URL}/login/token`;
+  const body = {
+    refreshToken: action.Token,
+  };
+  return api
+    .POST_AUTH(url, body)
+    .then((response) => {
+      const payload = response.data;
+      return {
+        payload,
+      };
+    })
+    .catch((error) => {
+      return {
+        error,
+      };
+    });
+};
+
+const logoutApi = (action) => {
+  console.log("logoutApi", action);
+  const url = `${process.env.REACT_APP_API_URL}/login/logout`;
+  const body = {
+    refreshToken: action.Token,
+  };
+  return api
+    .POST_AUTH(url, body)
     .then((response) => {
       const payload = response.data;
       return {
@@ -64,7 +106,7 @@ const addUserApi = (action) => {
   };
   // console.log("body", body)
   return api
-    ._post(url, body)
+    .POST_AUTH(url, body)
     .then((response) => {
       // console.log(response)
       const payload = response;
@@ -88,7 +130,7 @@ const getUserDataApi = (action) => {
   };
   // console.log("body", body)
   return api
-    ._post(url, body)
+    .POST_AUTH(url, body)
     .then((response) => {
       const payload = response.data;
       return {
@@ -110,7 +152,7 @@ const getDashboardApi = (action) => {
   };
   // console.log("body", body)
   return api
-    ._post(url, body)
+    .POST_AUTH(url, body)
     .then((response) => {
       console.log("res getDashboardApi", response);
       const payload = response.data;
@@ -131,4 +173,6 @@ export const UserApi = {
   addUserApi,
   getUserDataApi,
   getDashboardApi,
+  refreshTokenApi,
+  logoutApi,
 };

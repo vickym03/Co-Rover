@@ -4,6 +4,8 @@ const userRouter = express.Router();
 const mongoose = require("mongoose");
 const moment = require("moment");
 const GraphDashModel = require("../model/GraphDashModel");
+const authentication = require("../middleware/auth");
+
 /*
 
 * url:http://localhost:5000/user/addUser
@@ -42,8 +44,8 @@ const GraphDashModel = require("../model/GraphDashModel");
 
 */
 
-userRouter.post("/addUser", function (request, response) {
-  console.log("body addUser", request.body);
+userRouter.post("/addUser", authentication, function (request, response) {
+  // console.log("body addUser", request.body);
 
   var entitySchema = mongoose.Schema({
     testvalue: { type: Number },
@@ -114,6 +116,7 @@ userRouter.post("/addUser", function (request, response) {
       mobileno: request.body.mobileno,
       clientId: request.body.clientId,
     }).then((users) => {
+      console.log("udp", users);
       if (users !== null && users.id !== request.body.id) {
         response.status(200).send({
           data: {
@@ -184,7 +187,7 @@ userRouter.post("/addUser", function (request, response) {
  *       }
  */
 
-userRouter.post("/viewUser", function (request, response) {
+userRouter.post("/viewUser", authentication, function (request, response) {
   UserModel.find({ clientId: request.body.clientId })
     .then((data) => {
       // console.log("data", data)
@@ -216,7 +219,7 @@ userRouter.post("/viewUser", function (request, response) {
  *       }
  */
 
-userRouter.post("/graphDash", function (request, response) {
+userRouter.post("/graphDash", authentication, function (request, response) {
   console.log("resp", request.body.date);
   GraphDashModel.findOne({ date: request.body.date })
     .then((data) => {

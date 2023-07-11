@@ -21,6 +21,7 @@ import Alert from "@mui/material/Alert";
 import Collapse from "@mui/material/Collapse";
 import { IconButton } from "@mui/material";
 import Footer from "../../Dashboard/views/Footer";
+import { resetLogin } from "../../Login/actions";
 
 function Form(props) {
   const {
@@ -32,7 +33,8 @@ function Form(props) {
     setShowUpdate,
   } = props;
 
-  console.log("setFormview", typeof setFormview);
+ 
+
   const dispatch = useDispatch();
   const classes = useStyles();
 
@@ -53,10 +55,12 @@ function Form(props) {
 
   const { loginData, adduser, userData, adduserStatus } = getData;
 
-  const loginparse = localStorage.getItem("login");
+  const loginparse = sessionStorage.getItem("login");
   const login = JSON.parse(loginparse);
 
   const clientId = login !== null && login["data"]["clientId"];
+
+  console.log("selectedRow", selectedRow);
 
   // const {
   //   id,
@@ -177,7 +181,7 @@ function Form(props) {
           usertype,
           mobileno,
           active,
-          selectedRow.id,
+          selectedRow.slno,
           insertMode,
           clientId
         )
@@ -389,13 +393,13 @@ function Form(props) {
 
       <Grid sx={{ padding: "30px" }}>
         <Typography variant="h4" sx={{ padding: "0px 0px 30px 0px" }}>
-          {/* User Form                                         */}
+          Form
         </Typography>
-        <Card sx={{ display: "flex", paddingTop: "40px" }}>
+        <Card sx={{ display: "flex" }}>
           <Box
             component="form"
             sx={{
-              "& .MuiTextField-root": { m: 3, width: "28ch" },
+              "& .MuiTextField-root": { m: 3, width: "33ch" },
             }}
             // noValidate
             autoComplete="off"
@@ -561,7 +565,7 @@ function Form(props) {
               direction="row"
               spacing={1}
               alignItems="center"
-              sx={{ padding: "0px 0px 0px 20px" }}
+              sx={{ padding: "20px " }}
             >
               {/* <Typography>Off</Typography> */}
               <Grid>

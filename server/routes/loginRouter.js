@@ -2,7 +2,9 @@ const express = require("express");
 const LoginModel = require("../model/LoginModel");
 const loginRouter = express.Router();
 const mongoose = require("mongoose");
-const autoIncrement = require("mongoose-auto-increment");
+const jwt = require("jsonwebtoken");
+let tokenList = {};
+const authentication = require("../middleware/auth");
 
 /*
 
@@ -129,24 +131,45 @@ loginRouter.post("/register", function (request, response) {
 */
 
 loginRouter.post("/login", function (request, response) {
-  console.log("request.body", request.body);
+  // console.log("request.body", request.body);
   LoginModel.findOne({ name: request.body.name }).then((users) => {
     if (users === null) {
       response.send({
         data: {
-          message: " Data not found please register",
+          message: "Data not found please register",
           status: 404,
           login: false,
         },
       });
     } else if (request.body.password === users.password) {
-      // console.log(users)
+      //   create JWT token
+      const accesstoken = jwt.sign(
+        {
+          name: users.name,
+          password: users.password,
+        },
+        "RANDOM-TOKEN",
+        { expiresIn: "35m" }
+      );
+
+      const refreshToken = jwt.sign(
+        {
+          name: users.name,
+          password: users.password,
+        },
+        "RANDOM-TOKEN",
+        { expiresIn: "25m" }
+      );
+      console.log("token:", accesstoken);
+      tokenList[refreshToken] = response;
       response.send({
         data: {
           status: 200,
           message: "login success",
           data: users,
           login: true,
+          accessToken: accesstoken,
+          refreshToken: refreshToken,
         },
       });
     } else {
@@ -163,9 +186,79 @@ loginRouter.post("/login", function (request, response) {
 
 /*
 
+* url:http://localhost:5000/login/token
+* method: POST'
+*  body :{
+*  token : "  "
+*}
+
+*/
+
+loginRouter.post("/token", function (request, response) {
+  console.log("request.body.refreshToken", request.body.refreshToken);
+  // refresh the damn token
+  // if refresh token exists
+  if (request.body.refreshToken && request.body.refreshToken in tokenList) {
+    const user = {
+      name: request.body.name,
+      password: request.body.password,
+    };
+    const token = jwt.sign(user, "RANDOM-TOKEN", {
+      expiresIn: "15m",
+    });
+
+    // update the token in the list
+    tokenList[request.body.refreshToken].token = token;
+    response.send({
+      data: {
+        message: "successfully refreshed",
+        Token: token,
+        status: 200,
+      },
+    });
+  } else {
+    response.send({
+      data: {
+        message: "error in  refresh",
+        status: 404,
+      },
+    });
+  }
+});
+
+/*
+
+* url:http://localhost:5000/login/logout
+* method: POST
+* body: {
+*   "refreshToken":REFERSH TOKEN WHILE LOGIN 
+* }
+ 
+*/
+loginRouter.post("/logout", function (request, response) {
+  const logoutkn = request.body.refreshToken;
+  if (logoutkn && logoutkn in tokenList) {
+    tokenList = {};
+    response.send({
+      data: {
+        msg: "You have been Logged Out",
+        status: 200,
+      },
+    });
+  } else {
+    response.send({
+      data: {
+        msg: "Logged Out error",
+        status: 404,
+      },
+    });
+  }
+});
+
+/*
+
 * url:http://localhost:5000/login/userlist
 * method: GET 
-* 
 
 */
 

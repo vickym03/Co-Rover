@@ -31,10 +31,15 @@ import PersonIcon from "@mui/icons-material/Person";
 import { CoRoverIcon, TooltipCus } from "../../Dashboard/views/Icons";
 import { makeStyles } from "@mui/styles";
 import Footer from "../../Dashboard/views/Footer";
+import Badge from "@mui/material/Badge";
+import Avatar from "@mui/material/Avatar";
+import Stack from "@mui/material/Stack";
+import { logoutRequest } from "../../core/auth/actions";
+
 const useStyles = makeStyles((theme) => ({
   tooltip: {
     backgroundColor: "#FFFFFF  !important",
-    color: "#F70776 !important",
+    color: "#F70774 !important",
     border: "2px solid #254B62",
     fontSize: "0.9em !important",
     fontWeight: "bold !important",
@@ -122,6 +127,13 @@ export default function NavDrawer() {
   const dispatch = useDispatch();
   const classes = useStyles();
 
+  const loginparse = sessionStorage.getItem("login");
+  const login = JSON.parse(loginparse);
+
+  // const refreshToken = login !== null && login.refreshToken;
+
+  // console.log("login drawer" , login.data.name)
+
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -137,14 +149,16 @@ export default function NavDrawer() {
       text: "Dashboard",
       icon: (
         <DashboardCustomizeOutlinedIcon
-          sx={{ color: "#478e8e ", fontSize: "40px" }}
+          sx={{ color: "#008080 ", fontSize: "40px !important" }}
         />
       ),
       onclick: () => navigate("/dashboard"),
     },
     {
       text: "Tiltle ....",
-      icon: <PersonIcon sx={{ color: "#478e8e ", fontSize: "40px" }} />,
+      icon: (
+        <PersonIcon sx={{ color: " #008080 ", fontSize: "40px !important" }} />
+      ),
       onclick: () => navigate("/userDetails"),
     },
     // {
@@ -155,42 +169,91 @@ export default function NavDrawer() {
   ];
 
   const back = () => {
-    // setLogin(true);
-    // setDashboard(false);
-    // setOpen(false);
-    // setOpenErr(false);
-    // setOpenNotFou(false);
-    navigate("/");
-    dispatch(resetLogin());
-    localStorage.setItem("login", null);
+    navigate("/login");
+    // dispatch(logoutRequest(refreshToken));
+     dispatch(resetLogin());
+    sessionStorage.setItem("login", null);
+    window.location.reload();
   };
+
+  const StyledBadge = styled(Badge)(({ theme }) => ({
+    "& .MuiBadge-badge": {
+      backgroundColor: "#44b700",
+      color: "#44b700",
+      boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+      "&::after": {
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        borderRadius: "50%",
+        animation: "ripple 1.2s infinite ease-in-out",
+        border: "1px solid currentColor",
+        content: '""',
+      },
+    },
+    "@keyframes ripple": {
+      "0%": {
+        transform: "scale(.8)",
+        opacity: 1,
+      },
+      "100%": {
+        transform: "scale(2.4)",
+        opacity: 0,
+      },
+    },
+  }));
+
+  function stringAvatar(namem) {
+    const name = namem.toUpperCase();
+    return {
+      sx: {
+        bgcolor: "orange",
+      },
+      children:
+        name.split(" ")[0][0] === !undefined
+          ? `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`
+          : `${name.split(" ")[0][0]}`,
+    };
+  }
 
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar position="fixed" open={open}>
         <Toolbar sx={{ backgroundColor: "white" }}>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="end"
-            sx={{
-              marginRight: 5,
-              color: "#000000",
-              ...(open && { display: "none" }),
-            }}
-          >
-            <CoRoverIcon />
-          </IconButton>
+          {!open && (
+            <>
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                onClick={handleDrawerOpen}
+                edge="end"
+                sx={{
+                  marginRight: 5,
+                  color: "#000000",
+                  ...(open && { display: "none" }),
+                }}
+              >
+                <CoRoverIcon />
+              </IconButton>
+            </>
+          )}
           <Grid container spacing={2} sx={{ color: "#000000" }}>
             <Grid item xs={4}>
-              Project title .....
+              <Typography variant="h4" sx={{ paddingLeft: "20px" }}>
+                Project title
+              </Typography>
             </Grid>
             <Grid item xs={4}></Grid>
             <Grid item xs={4}>
               <IconButton
-                sx={{ color: "#000000", float: "right" }}
+                sx={{
+                  color: "#000000",
+                  float: "right",
+                  paddingLeft: "80px !important",
+                }}
                 onClick={back}
               >
                 <Tooltip
@@ -199,9 +262,29 @@ export default function NavDrawer() {
                   arrow
                   classes={{ arrow: classes.arrow, tooltip: classes.tooltip }}
                 >
-                  <LogoutIcon sx={{ fontSize: "30px", color: "#B22222" }} />
+                  <LogoutIcon sx={{ fontSize: "30px", color: " #008080" }} />
                 </Tooltip>
               </IconButton>
+
+              <Grid sx={{ postion: "fixed", float: "right" }}>
+                <Stack direction="row" spacing={2}>
+                  <StyledBadge
+                    overlap="circular"
+                    anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                    variant="dot"
+                  >
+                    <Avatar
+                      {...(login !== undefined &&
+                        login !== null &&
+                        stringAvatar(login.data.name))}
+                    />
+                  </StyledBadge>
+
+                  <Typography variant="h5">
+                    {login !== null && login.data.name}
+                  </Typography>
+                </Stack>
+              </Grid>
             </Grid>
           </Grid>
         </Toolbar>
@@ -227,7 +310,8 @@ export default function NavDrawer() {
           {itemslist.map((item, index) => {
             const { text, icon, onclick } = item;
             return (
-              <Tooltip key={index}
+              <Tooltip
+                key={index}
                 title={text}
                 placement="right-start"
                 arrow
