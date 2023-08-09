@@ -7,7 +7,6 @@ export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
 export const LOGOUT_FAILED = "LOGOUT_FAILED";
 
 export function refreshTokenRequest(refreshToken) {
-  console.log("refreshTokenRequest", refreshToken);
   return {
     type: REFRESH_TOKEN_REQUEST,
     Token: refreshToken,
@@ -15,7 +14,6 @@ export function refreshTokenRequest(refreshToken) {
 }
 
 export function refreshTokenSuccess(data) {
-  console.log("sucess", data);
   return {
     type: REFRESH_TOKEN_SUCCESS,
     payload: data,

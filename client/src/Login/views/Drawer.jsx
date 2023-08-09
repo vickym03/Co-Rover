@@ -171,8 +171,8 @@ export default function NavDrawer() {
   const back = () => {
     navigate("/login");
     // dispatch(logoutRequest(refreshToken));
-     dispatch(resetLogin());
-    sessionStorage.setItem("login", null);
+    dispatch(resetLogin());
+    sessionStorage.clear();
     window.location.reload();
   };
 

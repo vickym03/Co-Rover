@@ -23,7 +23,6 @@ export default function authReducer(state = initialState, action) {
       };
 
     case REFRESH_TOKEN_SUCCESS:
-       console.log("state reducer", action.payload)
       return {
         ...state,
         refreshData: action.payload,
